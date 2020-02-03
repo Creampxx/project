@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {AngularFireDatabase} from 'angularfire2/database';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -6,4 +8,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent{}
+export class AppComponent{
+
+}

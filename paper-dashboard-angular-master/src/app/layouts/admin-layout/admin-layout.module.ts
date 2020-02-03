@@ -12,7 +12,7 @@ import { TypographyComponent }      from '../../pages/typography/typography.comp
 import { IconsComponent }           from '../../pages/icons/icons.component';
 import { MapsComponent }            from '../../pages/maps/maps.component';
 import { NotificationsComponent }   from '../../pages/notifications/notifications.component';
-import { UpgradeComponent }         from '../../pages/upgrade/upgrade.component';
+import { Table2Component }          from '../../pages/table2/table2.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -27,7 +27,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DashboardComponent,
     UserComponent,
     TableComponent,
-    UpgradeComponent,
+    Table2Component,
     TypographyComponent,
     IconsComponent,
     MapsComponent,

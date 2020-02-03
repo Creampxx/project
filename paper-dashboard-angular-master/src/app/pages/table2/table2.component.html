@@ -1,70 +1,30 @@
 <div class="row">
-  <div class="col-md-12">
+  <!-- <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">จัดการผู้ใช้</h4>
+        <h4 class="card-title"> อุปกรณ์</h4>
       </div>
       <div class="card-body">
         <div class="table-responsive">
           <table class="table">
             <thead class=" text-primary">
               <th>
-               ชื่อ-นามสกุล
+                รหัสอุปกรณ์
               </th>
               <th>
-                รหัส
+                ชื่อผู้ใช้
               </th>
               <th>
-                อีเมลล์
+                รหัสผู้ใช้
               </th>
               <th>
-                ให้สิทธิ์
+                สถานะ
               </th>
               <th class="text-right">
-               แก้ไข
+                แก้ไขอุปกรณ์
               </th>
               <th class="text-right">
                 ลบ
-               </th>
-            </thead>
-            <tbody>
-          <tr *ngFor = "let data of User">
-               <td>{{data.value.name+"  "+data.value.surname}}</td>
-               <td>{{data.value.uId}}</td>
-               <td>{{data.value.email}}</td>
-               <td>{{data.value.priority}}</td>
-               <td class="text-right"><button type="button" (click)="editUser(data)" >Edit</button></td>
-               <td class="text-right"><button type="button" (click)="delUser(data)" >Delete</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  
-  <!-- <div class="col-md-12">
-    <div class="card card-plain">
-      <div class="card-header">
-        <h4 class="card-title"> Table on Plain Background</h4>
-        <p class="card-category"> Here is a subtitle for this table</p>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table">
-            <thead class=" text-primary">
-              <th>
-                Name
-              </th>
-              <th>
-                Country
-              </th>
-              <th>
-                City
-              </th>
-              <th class="text-right">
-                Salary
               </th>
             </thead>
             <tbody>
@@ -171,20 +131,50 @@
         </div>
       </div>
     </div>
+  </div> -->
+  
+  <div class="col-md-12">
+    <div class="card card-plain">
+      <div class="card-header">
+        <h4 class="card-title">จัดการอุปกรณ์</h4>
+        <p class="card-category"></p>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                รหัสอุปกรณ์
+              </th>
+              <th>
+                ชื่อผู้ใช้
+              </th>
+              <th>
+                รหัสผู้ใช้
+              </th>
+              <th>
+                สถานะ
+              </th>
+              <th class="text-right">
+                แก้ไขอุปกรณ์
+              </th>
+              <th class="text-right">
+                ลบ
+              </th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data  of Scanner; let i = index">
+               <td>{{data.value.scId}}</td>
+               <td>ชื่อผู้ใช้เครื่อง</td>
+               <td>{{data.value.uId}}</td>
+               <td style="color:red;">{{ ScannerReady[i]}}</td>
+               <td class="text-right">..</td>
+               <td class="text-right">..</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
-</div> -->
-
-<!-- Modal Edit -->
-<!-- <ng-template #Edit>
-  <div class="modal-content">
-      <div class="modal-header">
-          <h4 class="modal-title text-center">แก้ไขข้อมูลผู้ใช้</h4>
-      </div>
-      <div class="modal-body">
-        
-      </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-default" (click)="confirm()">ปิด</button>
-      </div>
-  </div>
-</ng-template>   -->
+</div>
