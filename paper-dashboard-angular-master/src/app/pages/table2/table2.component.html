@@ -137,7 +137,8 @@
     <div class="card card-plain">
       <div class="card-header">
         <h4 class="card-title">จัดการอุปกรณ์</h4>
-        <p class="card-category"></p>
+       
+        <p class="card-category" style="text-align: right;" > <button type="button" (click)="openModal(A)" >Add</button></p>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -163,11 +164,11 @@
               </th>
             </thead>
             <tbody>
-              <tr *ngFor="let data  of Scanner; let i = index">
-               <td>{{data.value.scId}}</td>
-               <td>ชื่อผู้ใช้เครื่อง</td>
-               <td>{{data.value.uId}}</td>
-               <td style="color:red;">{{ ScannerReady[i]}}</td>
+              <tr *ngFor="let a  of data; let i = index">
+               <td>{{data[i].scId}}</td>
+               <td>{{data[i].name+" "+data[i].surname}}</td>
+               <td>{{data[i].uId}}</td>
+               <td style="color:red;">{{dataready}}</td>
                <td class="text-right">..</td>
                <td class="text-right">..</td>
               </tr>
@@ -178,3 +179,21 @@
     </div>
   </div>
 </div>
+
+<ng-template #A>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title text-center">เพิ่มอุปกรณ์</h4>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="AddEquipment(equipmentForm)" #equipmentForm="ngForm">
+          <label for="scId">รหัสอุปกรณ์</label><input type="text" name="scId" ngModel>
+          <label for="uId">รหัสผู้ใช้</label> <input type="text" name="uId" ngModel>
+        <button type="submit" class="btn btn-default" (click)="confirm()">เพิ่ม</button>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">                                        
+         
+      </div> -->
+  </div>
+</ng-template > 

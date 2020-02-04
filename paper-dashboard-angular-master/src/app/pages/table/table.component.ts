@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap';
+import { HttpClient } from '@angular/common/http'
 import { NgForm } from '@angular/forms';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { map } from 'rxjs/operators';
@@ -18,8 +19,9 @@ import { map } from 'rxjs/operators';
 export class TableComponent implements OnInit{
    userList : AngularFireList<any>;
    User:any[];
+    modalRef: any;
 
-   constructor(db: AngularFireDatabase){
+   constructor(db: AngularFireDatabase,private modalService: BsModalService){
        this.userList = db.list('User');
    }
 
@@ -34,12 +36,15 @@ export class TableComponent implements OnInit{
             this.User = items;
         });
      }
-
+ openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
+  }
      delUser(data){
          console.log(data);
          this.userList.remove(data.key);
      }
      EditUser(data){
-
+      
      }
+    
 }
