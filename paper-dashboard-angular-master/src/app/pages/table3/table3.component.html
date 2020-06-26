@@ -1,0 +1,355 @@
+<div class="row">
+    <div class="col-md-12">
+     <div class="card">
+       <div class="card-header">
+         <h4 class="card-title"></h4>
+        
+         <p class="card-category" style="text-align: right;" > <button type="button" (click)="openModal(A)" class="btn btn-danger btn-rounded" >Add</button></p>
+       </div>
+       <div class="card-body">
+         <div class="table-responsive">
+           <table class="table">
+             <thead class=" text-primary">
+               <th>
+                  ชื่อวิชา
+               </th>
+               <th>
+                 รหัสวิชา
+               </th>
+               <th>
+                 หมู่เรียน
+               </th>
+               <th>
+                 import
+               </th>
+               <th class="text-right">
+                 แก้ไข
+               </th>
+               <th class="text-right">
+                 ลบ
+               </th>
+               <th class="text-right">
+                อุปกรณ์ที่เชื่อม
+              </th>
+             </thead>
+             <tbody>
+              <tr *ngFor= "let a of data;let i = index">
+                  <td>{{data[i].subject}}</td>
+                  <td>{{data[i].sId}}</td>
+                  <td>{{data[i].sectionNumber}}</td>
+                  <td (click)="openModal(import)"><i class="nc-icon nc-cloud-download-93" type="button"></i></td>
+                  <td class="text-right"><i class="nc-icon nc-settings-gear-65" type="button"></i></td>
+                  <td class="text-right"><i class="nc-icon nc-box" type="button" (click)="delSection()"></i></td>
+                  <td  class="text-right" (click)="openModal(Scanner)"><button>{{data[i].scId}}</button></td>
+              </tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+     </div>
+   </div>
+
+
+  <!-- เปิดสอนวิชา -->
+  <ng-template #A>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">เพิ่มวิชาที่จะเปิดสอน</h4>
+        </div>
+        <div class="modal-body">
+          <!-- <div class="row">
+            <div class="col-md-5">
+          <form (ngSubmit)="AddUser(userForm)" #userForm="ngForm">
+           
+            <label for="name">ชื่อ:</label> <input type="text" name="name" ngModel>  
+            <label for="surname">นามสกุล:</label> <input type="text" name="surname" ngModel>
+           
+    
+        
+  
+            <label for="email">อีเมลล์</label><input type="text" name="email" ngModel>
+            <label for="piority">สิทธิ์</label> <input type="text" name="piority" ngModel>
+            <label for="uId">รหัสผู้ใช้</label> <input type="text" name="uId" ngModel> 
+            <label for="password">รหัสผ่าน</label><input type="text" name="password" ngModel>
+         
+          <button type="submit" class="btn btn-default" (click)="confirm()">เพิ่ม</button>
+          </form>
+          </div>
+          </div> -->
+          
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card card-user">
+                <div class="card-body">
+                  <form (ngSubmit)="AddSubject(subjectForm)" #subjectForm="ngForm">
+                    <div class="row">
+                      <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                          <label>หมู่เรียน</label>
+                          <input type="text" class="form-control" name="name" placeholder="" value="sectionNumber" ngModel>
+                        </div>
+                      </div>
+                      <div class="col-md-6 pl-1">
+                        <div class="form-group">
+                          <label>รหัสวิชา</label>
+                          <input type="text" class="form-control" placeholder="" value="" name="sId" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 pl-1">
+                        <div class="form-group">
+                          <label>ชื่อวิชา</label>
+                          <input type="text" class="form-control" placeholder="" value="" name="subject" ngModel>
+                        </div>
+                      </div>
+                      <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                          <label>ห้องที่เรียน</label>
+                          <input type="password" class="form-control" placeholder="" value="" name="password" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                    <table class="table">
+                      <thead class=" text-primary">
+                        <th>
+                           วันที่เรียน
+                        </th>
+                        <th>
+                          เวลาเริ่มเรียน
+                        </th>
+                        <th>
+                          เวลาสิ้นสุด
+                        </th> 
+                        <th>*Action</th> 
+                                                  
+                      </thead>
+                      <tbody>
+                       <tr *ngFor="let obj of dataArray; let  i=index">
+                           <td> 
+                            <select type="text" class="form-control"  name="day"  [(ngModel)]="obj.day">
+                              <option value="MON">MON</option>
+                              <option value="TUE">TUE</option>
+                              <option value="WEND">WEND</option>
+                              <option value="THU">THU</option>
+                              <option value="FRI">FRI</option>
+                              <option value="SAT">SAT</option>
+                              <option value="SUN">SUN</option>                        
+                            </select></td>
+                           <td>
+                            <input type="time" class="form-control"  placeholder="" value="" name="starttime" [(ngModel)]="obj.starttime"></td>
+                           <td>
+                            <input type="time" class="form-control"  placeholder="" value="" name="endtime" [(ngModel)]="obj.endtime"></td>
+                            <td><button type="button" (click)="addForm()">+</button>
+                           <button *ngIf="i!=0" type="button" (click)="delForm(i)">-</button></td>
+                           
+                            
+                       </tr>
+                      </tbody>
+                    </table>
+                         
+                    <div class="row">
+                      <div class="update ml-auto mr-auto">
+                        <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">เพิ่มวิชาที่จะเปิดสอน</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">                                        
+           
+        </div> -->
+    </div>
+  </ng-template > 
+
+  <ng-template #B>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title text-center">แก้ไขวิชาที่จะเปิดสอน</h4>
+        </div>
+        <div class="modal-body">
+          <!-- <div class="row">
+            <div class="col-md-5">
+          <form (ngSubmit)="AddUser(userForm)" #userForm="ngForm">
+           
+            <label for="name">ชื่อ:</label> <input type="text" name="name" ngModel>  
+            <label for="surname">นามสกุล:</label> <input type="text" name="surname" ngModel>
+           
+    
+        
+  
+            <label for="email">อีเมลล์</label><input type="text" name="email" ngModel>
+            <label for="piority">สิทธิ์</label> <input type="text" name="piority" ngModel>
+            <label for="uId">รหัสผู้ใช้</label> <input type="text" name="uId" ngModel> 
+            <label for="password">รหัสผ่าน</label><input type="text" name="password" ngModel>
+         
+          <button type="submit" class="btn btn-default" (click)="confirm()">เพิ่ม</button>
+          </form>
+          </div>
+          </div> -->
+          
+          <div class="row">
+            <div class="col-md-8">
+              <div class="card card-user">
+                <div class="card-body">
+                  <form (ngSubmit)="AddSubject(subjectForm)" #subjectForm="ngForm">
+                    <div class="row">
+                      <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                          <label>หมู่เรียน</label>
+                          <input type="text" class="form-control" name="name" placeholder="" value="sectionNumber" ngModel>
+                        </div>
+                      </div>
+                      <div class="col-md-6 pl-1">
+                        <div class="form-group">
+                          <label>รหัสวิชา</label>
+                          <input type="text" class="form-control" placeholder="" value="" name="sId" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 pl-1">
+                        <div class="form-group">
+                          <label>ชื่อวิชา</label>
+                          <input type="text" class="form-control" placeholder="" value="" name="subject" ngModel>
+                        </div>
+                      </div>
+                      <div class="col-md-6 pr-1">
+                        <div class="form-group">
+                          <label>ห้องที่เรียน</label>
+                          <input type="password" class="form-control" placeholder="" value="" name="password" ngModel>
+                        </div>
+                      </div>
+                    </div>
+                
+                  
+    
+                         
+                    <div class="row">
+                      <div class="update ml-auto mr-auto">
+                        <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">เพิ่มผู้ใช้</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">                                        
+           
+        </div> -->
+    </div>
+  </ng-template > 
+
+
+<ng-template #timetable>
+  <div class="modal-content">
+    <div class="modal-body">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label>วันที่เรียน</label><br>
+        <select type="text" class="form-control"  name="day" ngModel>
+          <option value="MON">MON</option>
+          <option value="TUE">TUE</option>
+          <option value="WEND">WEND</option>
+          <option value="THU">THU</option>
+          <option value="FRI">FRI</option>
+          <option value="SAT">SAT</option>
+          <option value="SUN">SUN</option>                        
+        </select>
+      </div>
+    </div>
+    <div class="col-md-6 pr-1">
+      <div class="form-group">
+        <label>เวลาเริ่มเรียน</label>
+        <input type="time" class="form-control"  placeholder="" value="" name="starttime" ngModel>
+      </div>
+    </div>
+    <div class="col-md-6 pr-1">
+      <div class="form-group">
+        <label>เวลาสิ้นสุด</label>
+        <input type="time" class="form-control"  placeholder="" value="" name="endtime" ngModel>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</ng-template>
+
+
+
+<ng-template #Scanner>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title text-center">เลือกเครื่องสแกนที่จะเชื่อมกับรายวิชา</h4>
+      </div>
+      <div class="modal-body">
+      
+        
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card card-user">
+              <div class="card-body">
+                <form (ngSubmit)="AddSubject(subjectForm)" #subjectForm="ngForm">
+                  <div class="row">
+                    <label>อุปกรณ์</label><br>
+                    <select type="text" class="form-control"  name="" ngModel>
+                        <option>S001</option>
+                    </select>
+                  </div>
+                
+                       
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">ตกลง</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">                                        
+         
+      </div> -->
+  </div>
+</ng-template > 
+
+
+<ng-template #import>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title text-center">นำเข้าไฟล์รายชื่อนิสิต</h4>
+  </div>
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <div class="form-group">
+                <label for="file">Choose File</label>
+                <input type="file"
+                       id="file"
+                       (change)="handleFileInput($event.target.files)">
+            </div>
+
+  <div class="row">
+    <div class="update ml-auto mr-auto">
+      <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">ตกลง</button>
+    </div>
+  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</ng-template>
+
+

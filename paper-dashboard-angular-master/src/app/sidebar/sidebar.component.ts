@@ -1,22 +1,33 @@
 import { Component, OnInit } from '@angular/core';
+import {  AuthenticationService } from '../_services';
+import { AngularFireDatabase, AngularFireList  } from 'angularfire2/database';
 
-
+ 
 export interface RouteInfo {
     path: string;
     title: string;
     icon: string;
     class: string;
+    
 }
 
-export const ROUTES: RouteInfo[] = [
-    // { path: '/dashboard',     title: 'Dashboard',         icon:'nc-bank',       class: '' },
-    // { path: '/icons',         title: 'Icons',             icon:'nc-diamond',    class: '' },
-    // { path: '/maps',          title: 'Maps',              icon:'nc-pin-3',      class: '' },
-    // { path: '/notifications', title: 'Notifications',     icon:'nc-bell-55',    class: '' },
+export const ROUTES1: RouteInfo[] = [
+    //{ path: '/icons',         title: 'Icons',             icon:'nc-diamond',    class: '' },
     // { path: '/user',          title: 'User Profile',      icon:'nc-single-02',  class: '' },
-    { path: '/table',         title: 'Usermanage',        icon:'nc-tile-56',    class: '' },
     // { path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
-    { path: '/table2',       title: 'Equipment',    icon:'nc-spaceship',  class: '' },
+    { path: '/classopen', title: 'วิชาเปิดสอน',     icon:'nc-bullet-list-67',    class: '' },
+    { path: '/user',     title: 'แก้ไขข้อมูลส่วนตัว',        icon:'nc-settings',       class: '' },
+];
+
+export const ROUTES2: RouteInfo[] = [
+    //{ path: '/icons',         title: 'Icons',             icon:'nc-diamond',    class: '' },
+    // { path: '/user',          title: 'User Profile',      icon:'nc-single-02',  class: '' },
+    // { path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
+    { path: '/classopen', title: 'วิชาเปิดสอน',     icon:'nc-bullet-list-67',    class: '' },
+    { path: '/table3',          title: 'จัดการรายวิชา',              icon:'nc-single-copy-04',      class: '' },
+    { path: '/table2',       title: 'จัดการอุปกรณ์',    icon:'nc-spaceship',  class: '' },
+    { path: '/table',         title: 'จัดการผู้ใช้',        icon:'nc-tile-56',    class: '' },
+    { path: '/user',     title: 'แก้ไขข้อมูลส่วนตัว',        icon:'nc-settings',       class: '' },
 ];
 
 @Component({
@@ -26,8 +37,27 @@ export const ROUTES: RouteInfo[] = [
 })
 
 export class SidebarComponent implements OnInit {
+    constructor( public db: AngularFireDatabase,public authenticationService: AuthenticationService)
+    {}
     public menuItems: any[];
+    name :any[];
+    status:any;
+    uId:any[];
+    id : string;
     ngOnInit() {
-        this.menuItems = ROUTES.filter(menuItem => menuItem);
+        console.log(this.authenticationService.currentUserValue)
+        this.name = this.authenticationService.currentUserValue['user']['fullname'];
+        this.uId = this.authenticationService.currentUserValue['user']['uId'];
+        // this.user_id = this.authenticationService.currentUserValue['user_id'];
+        if(this.authenticationService.currentUserValue['user']['piority'] == 'NISIT'){         
+            this.status = 'NISIT';
+            this.menuItems = ROUTES1.filter(menuItem => menuItem);
+        }
+        else if(this.authenticationService.currentUserValue['user']['piority'] ==  'PROFESSOR'){
+            this.status = 'PROFESSOR';
+            this.menuItems = ROUTES2.filter(menuItem => menuItem);
+            
+        }
+        console.log(this.authenticationService.currentUserValue['user']['id'])
     }
 }

@@ -2,7 +2,8 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">จัดการผู้ใช้</h4>
+        <h4 class="card-title"> </h4>
+        <p class="card-category" style="text-align: right;" > <button type="button" (click)="openModal(A)" class="btn btn-danger btn-rounded">Add</button></p>
       </div>
       <div class="card-body">
         <div class="table-responsive">
@@ -26,15 +27,19 @@
               <th class="text-right">
                 ลบ
                </th>
+               <!-- <th >
+                password
+               </th> -->
             </thead>
             <tbody>
           <tr *ngFor = "let data of User">
-               <td>{{data.value.name+"  "+data.value.surname}}</td>
+               <td>{{data.value.name+"  "+data.value.surname }}</td>
                <td>{{data.value.uId}}</td>
                <td>{{data.value.email}}</td>
-               <td>{{data.value.priority}}</td>
-               <td class="text-right"><button type="button" (click)="editUser(data)" >Edit</button></td>
-               <td class="text-right"><button type="button" (click)="delUser(data)" >Delete</button></td>
+               <td>{{data.value.piority}}</td>
+               <td class="text-right"><i class="nc-icon nc-settings-gear-65" type="button"  (click)="editUser(data);openModal(B)"></i></td>
+               <td class="text-right"><i class="nc-icon nc-box" type="button" (click)="delUser(data)"></i></td>
+               <!-- <td>{{data.value.password}}</td> -->
               </tr>
             </tbody>
           </table>
@@ -174,17 +179,198 @@
   </div>
 </div> -->
 
-<!-- Modal Edit -->
-<!-- <ng-template #Edit>
+<ng-template #A>
+  <div class="modal-content">
+      <div class="modal-header">
+          <h4 class="modal-title text-center">เพิ่มผู้ใช้</h4>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="row">
+          <div class="col-md-5">
+        <form (ngSubmit)="AddUser(userForm)" #userForm="ngForm">
+         
+          <label for="name">ชื่อ:</label> <input type="text" name="name" ngModel>  
+          <label for="surname">นามสกุล:</label> <input type="text" name="surname" ngModel>
+         
+  
+      
+
+          <label for="email">อีเมลล์</label><input type="text" name="email" ngModel>
+          <label for="piority">สิทธิ์</label> <input type="text" name="piority" ngModel>
+          <label for="uId">รหัสผู้ใช้</label> <input type="text" name="uId" ngModel> 
+          <label for="password">รหัสผ่าน</label><input type="text" name="password" ngModel>
+       
+        <button type="submit" class="btn btn-default" (click)="confirm()">เพิ่ม</button>
+        </form>
+        </div>
+        </div> -->
+        
+        <div class="row"> 
+ 
+    
+          <div class="col-md-8">
+            <div class="card card-user">
+              <div class="card-body">
+                <form (ngSubmit)="AddUser(userForm)" #userForm="ngForm">
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>ชื่อ</label>
+                        <input type="text" class="form-control" name="name" placeholder="ชื่อ" value="ชื่อ" ngModel>
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>นามสกุล</label>
+                        <input type="text" class="form-control" placeholder="นามสกุล" value="นามสกุล" name="surname" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" placeholder="อีเมล" value="*******@gmail.com" name="email" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>สิทธิ์</label><br>
+                        <!-- <input type="text" class="form-control" placeholder="NISIT/PROFESSOR"  name="piority" ngModel> -->
+                        <input type="radio"  name="piority" value="NISIT" ngModel>    
+                        <label for="male">NISIT</label><br>                   
+                        <input type="radio"  name="piority" value="PROFESSOR" ngModel>    
+                        <label for="male">PROFESSOR</label><br>                  
+                      </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>รหัสผู้ใช้</label>
+                        <input type="text" class="form-control"  placeholder="รหัสนิสิต/รหัสอาจารย์" value="592050xxxx" name="uId" ngModel>
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>รหัสผ่าน</label>
+                        <input type="password" class="form-control" placeholder="รหัสผ่าน" value="" name="password" ngModel>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">เพิ่มผู้ใช้</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">                                        
+         
+      </div> -->
+  </div>
+</ng-template > 
+
+<ng-template #B>
   <div class="modal-content">
       <div class="modal-header">
           <h4 class="modal-title text-center">แก้ไขข้อมูลผู้ใช้</h4>
       </div>
       <div class="modal-body">
+        <!-- <div class="row">
+          <div class="col-md-5">
+        <form (ngSubmit)="AddUser(userForm)" #userForm="ngForm">
+         
+          <label for="name">ชื่อ:</label> <input type="text" name="name" ngModel>  
+          <label for="surname">นามสกุล:</label> <input type="text" name="surname" ngModel>
+         
+  
+      
+
+          <label for="email">อีเมลล์</label><input type="text" name="email" ngModel>
+          <label for="piority">สิทธิ์</label> <input type="text" name="piority" ngModel>
+          <label for="uId">รหัสผู้ใช้</label> <input type="text" name="uId" ngModel> 
+          <label for="password">รหัสผ่าน</label><input type="text" name="password" ngModel>
+       
+        <button type="submit" class="btn btn-default" (click)="confirm()">เพิ่ม</button>
+        </form>
+        </div>
+        </div> -->
         
+        <div class="row"> 
+ 
+    
+          <div class="col-md-8">
+            <div class="card card-user">
+              <div class="card-body">
+                <form (ngSubmit)="editUserS(users.key,userForm)" #userForm="ngForm">
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>ชื่อ</label>
+                        <input type="text" class="form-control" name="name" placeholder="ชื่อ" value="" ngModel [(ngModel)]="users.name">
+                      </div>
+                    </div>
+                    <div class="col-md-6 pl-1">
+                      <div class="form-group">
+                        <label>นามสกุล</label>
+                        <input type="text" class="form-control" placeholder="นามสกุล" value="" name="surname" ngModel [(ngModel)]="users.surname">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" placeholder="อีเมลล์" value="" name="email" ngModel [(ngModel)]="users.email" disabled="disabled">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>สิทธิ์</label>
+                        <input type="text" class="form-control" placeholder="สิทธิ์"  name="piority" ngModel [(ngModel)]="users.piority" disabled="disabled"> 
+                      </div>
+                    </div>
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>รหัสประจำตัวผู้ใช้</label>
+                        <input type="text" class="form-control"  placeholder="รหัสนิสิต/รหัสอาจารย์" value="" name="uId" ngModel [(ngModel)]="users.uId">
+                      </div>
+                    </div>
+                  </div>
+  
+                  <div class="row">
+                    <div class="col-md-6 pr-1">
+                      <div class="form-group">
+                        <label>รหัสผ่าน</label>
+                        <input type="text" class="form-control"  placeholder="รหัสผ่าน" id="password" name="password" ngModel [(ngModel)]="users.password" disabled="disabled">
+                       
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">แก้ไขข้อมูลผู้ใช้</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-default" (click)="confirm()">ปิด</button>
-      </div>
+      <!-- <div class="modal-footer">                                        
+         
+      </div> -->
   </div>
-</ng-template>   -->
+</ng-template > 
+

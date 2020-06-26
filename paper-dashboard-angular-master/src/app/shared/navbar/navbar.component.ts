@@ -1,7 +1,9 @@
 import { Component, OnInit, Renderer, ViewChild, ElementRef } from '@angular/core';
-import { ROUTES } from '../../sidebar/sidebar.component';
+import { ROUTES1 } from '../../sidebar/sidebar.component';
+import { ROUTES2 } from '../../sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { Location} from '@angular/common';
+import {  AuthenticationService } from '../../_services';
 
 @Component({
     moduleId: module.id,
@@ -19,14 +21,20 @@ export class NavbarComponent implements OnInit{
     public isCollapsed = true;
     @ViewChild("navbar-cmp", {static: false}) button;
 
-    constructor(location:Location, private renderer : Renderer, private element : ElementRef, private router: Router) {
+    constructor(location:Location, private renderer : Renderer, private element : ElementRef, private router: Router,public authenticationService: AuthenticationService) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
     }
 
     ngOnInit(){
-        this.listTitles = ROUTES.filter(listTitle => listTitle);
+      if(this.authenticationService.currentUserValue['user']['piority'] =='NISIT'){
+            this.listTitles = ROUTES1.filter(listTitle => listTitle);
+        }
+        else if(this.authenticationService.currentUserValue['user']['piority'] =='PROFESSOR'){
+          this.listTitles = ROUTES2.filter(listTitle => listTitle);
+        }
+        // this.listTitles = ROUTES.filter(listTitle => listTitle);
         var navbar : HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
         this.router.events.subscribe((event) => {
@@ -91,5 +99,10 @@ export class NavbarComponent implements OnInit{
         }
 
       }
+
+      signOut() {
+        this.authenticationService.logout();
+        this.router.navigateByUrl('/login');
+    }
 
 }

@@ -11,9 +11,9 @@ import { TableComponent }           from '../../pages/table/table.component';
 import { TypographyComponent }      from '../../pages/typography/typography.component';
 import { IconsComponent }           from '../../pages/icons/icons.component';
 import { MapsComponent }            from '../../pages/maps/maps.component';
-import { NotificationsComponent }   from '../../pages/notifications/notifications.component';
+import { ClassopenComponent }       from '../../pages/classopen/classopen.component';
 import { Table2Component }          from '../../pages/table2/table2.component';
-
+import { Table3Component }          from '../../pages/table3/table3.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -28,10 +28,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     UserComponent,
     TableComponent,
     Table2Component,
+    Table3Component,
     TypographyComponent,
     IconsComponent,
     MapsComponent,
-    NotificationsComponent,
+    ClassopenComponent,
   ]
 })
 

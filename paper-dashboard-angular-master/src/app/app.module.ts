@@ -1,3 +1,4 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -9,6 +10,8 @@ import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule} from './shared/navbar/navbar.module';
 import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
 import { LoginComponent } from './login/login.component';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutes } from './app.routing';
@@ -22,17 +25,28 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 
+import { CheckComponent } from './check/check.component';
+
+
+import { MatSortModule,MatButtonModule,MatFormFieldModule,MatInputModule } from '@angular/material'
+import { MatTableModule } from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+
+import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     LoginComponent,
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    CheckComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes,{
       useHash: true
     }),
+    BrowserModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment.firebase),
@@ -44,7 +58,15 @@ import { environment } from '../environments/environment';
     FooterModule,
     FixedPluginModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    ReactiveFormsModule,
+    MatSortModule,
+    MatButtonModule,MatPaginatorModule,MatIconModule,
+    MatFormFieldModule,
+    MatTableModule,
+    MatInputModule,
+    FormsModule,
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

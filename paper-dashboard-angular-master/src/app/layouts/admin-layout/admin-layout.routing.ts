@@ -6,8 +6,9 @@ import { TableComponent } from '../../pages/table/table.component';
 import { TypographyComponent } from '../../pages/typography/typography.component';
 import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
-import { NotificationsComponent } from '../../pages/notifications/notifications.component';
+import { ClassopenComponent }       from '../../pages/classopen/classopen.component';
 import { Table2Component } from '../../pages/table2/table2.component';
+import { Table3Component } from '../../pages/table3/table3.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -16,6 +17,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'typography',     component: TypographyComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-    { path: 'table2',         component: Table2Component }
+    { path: 'classopen',     component:  ClassopenComponent },
+    { path: 'table2',         component: Table2Component },
+    { path:'table3',         component: Table3Component }
 ];
