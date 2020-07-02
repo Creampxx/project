@@ -39,9 +39,7 @@ export class AuthenticationService {
             password: password
         };
          return this.http.post<any>('https://us-central1-verification-classrooms.cloudfunctions.net/api/login', data, { headers: this.headers }).subscribe(result => {
-            const users = result.data;
-           
-        
+            const users = result.data;              
             localStorage.setItem('currentUser', JSON.stringify(users))
             this.currentUserSubject.next(users);
             if(users.user.piority == "NISIT"){
@@ -52,7 +50,11 @@ export class AuthenticationService {
             }
             else {
                 alert("รหัสผิด ไอ้โง่ แกไม่มีสิทธิ์ มาขอเข้าระบบฉัน!!!!");
+                 
             }
+        },error => {
+            alert(error.error.message)
+        
         });
         // this.items=db.list('/candidates_list',{
         //     query:{

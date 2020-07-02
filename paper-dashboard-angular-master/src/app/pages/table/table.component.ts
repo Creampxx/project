@@ -5,6 +5,8 @@ import { NgForm } from '@angular/forms';
 import { AngularFireDatabase, AngularFireList  } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import {  AuthenticationService } from '../../_services';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 import { map } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
@@ -85,7 +87,7 @@ export class TableComponent implements OnInit{
      delUser(data){
          console.log(data);
          Swal.fire({
-            title: 'คุณต้องการที่จะลบค่าทั้งหมดหรือไม่?',
+            title: 'คุณต้องการที่จะลบผู้ใช้คนนี้หรือไม่?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
