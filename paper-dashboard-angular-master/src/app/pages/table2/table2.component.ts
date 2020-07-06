@@ -136,6 +136,7 @@ export class Table2Component implements OnInit {
   }
 
   openModal(template: TemplateRef<any>) {
+    this.getScanner();
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
   }
   delEquipment(data) {

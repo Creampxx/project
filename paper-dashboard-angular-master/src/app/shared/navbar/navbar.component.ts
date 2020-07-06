@@ -51,7 +51,7 @@ export class NavbarComponent implements OnInit{
               return this.listTitles[item].title;
           }
       }
-      return 'Dashboard';
+      // return 'Dashboard';
     }
     sidebarToggle() {
         if (this.sidebarVisible === false) {

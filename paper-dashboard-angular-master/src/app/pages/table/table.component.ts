@@ -30,12 +30,15 @@ export class TableComponent implements OnInit{
    userList : AngularFireList<any>;
 
     OPEN: boolean = true;
-    users :any = {};
-    User:any[];
+    users :any;
+    User:any;
+    UserForModal:any[];
     modalRef: any;
     headers = new HttpHeaders().set('Content-Type', 'application/json');
     message: string;
-    id;
+    id: string;
+    exname:any;
+    
 
    constructor(public db: AngularFireDatabase,
     private modalService: BsModalService,
@@ -67,25 +70,34 @@ export class TableComponent implements OnInit{
             this.getUserByKey(this.id);
             
         }
-
-        this.userList.snapshotChanges().pipe(map(actions => {
+       
+        
+       
+     }
+     this.getUsers();
+     } 
+     
+     
+     getUsers(){
+        let uid = this.authenticationService.currentUserValue['user']['id'];
+         this.userList.snapshotChanges().pipe(map(actions => {
                 //console.log(actions);
             return actions.map(action => ({ key: action.key, value:action.payload.val()})
             );
 
         })).subscribe(items => {
         console.log(items);
-            const user = items.filter(a => a.key !== uid)
-            this.User = user;
+            const userFormDB = items.filter(a => a.key !== uid)
+            this.User = userFormDB;        
+            console.log( this.User)
         });
         }
-       
-     }
  openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
+    this.getUsers();
   }
      delUser(data){
-         console.log(data);
+        //  console.log(data);
          Swal.fire({
             title: 'คุณต้องการที่จะลบผู้ใช้คนนี้หรือไม่?',
             icon: 'warning',
@@ -93,11 +105,12 @@ export class TableComponent implements OnInit{
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
-          }).then((result) => {
+          }).then(async (result) => {
             if (result.value) {
-                this.userList.remove(data.key);
-                this.http.delete('https://us-central1-verification-classrooms.cloudfunctions.net/api/deleteUser/' + data.key)
+                 this.http.delete('https://us-central1-verification-classrooms.cloudfunctions.net/api/deleteUser/' + data.key)
                 .subscribe((ok)=>{console.log(ok)});
+                //  this.userList.remove(data.key);
+               
                 Swal.fire('ลบค่าเรียบร้อย!', '', 'success')
             }
           })
@@ -119,20 +132,18 @@ export class TableComponent implements OnInit{
           console.log(d)
         this.http.post<any>('http://localhost:5001/verification-classrooms/us-central1/api/signup', d, { headers: this.headers}).subscribe(result => {
              console.log(result);
-            
         });
-        
-      
      }
 
      editUser(data){
         //this.db.list("User").push(data.value);
         console.log(data)
-        this.users = data.value;
-        this.users.key = data.key
-        console.log(this.users.key)
+        this.exname = data.value;
+        this.exname.key = data.key;
+        console.log(this.exname.key);
         // document.getElementById("password").removeAttribute("disabled");
         // this.getUserByKey(data.key);
+        
      }
      
      getUserByKey(id){
@@ -146,7 +157,7 @@ export class TableComponent implements OnInit{
      }
 
      editUserS(key,data: NgForm){
-        this.db.list('User').update(key,data.value);
+         this.db.list('User').update(key,data.value);
      }
 
      confirm(): void {

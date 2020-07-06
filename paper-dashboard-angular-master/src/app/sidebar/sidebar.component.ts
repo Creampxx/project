@@ -23,7 +23,7 @@ export const ROUTES2: RouteInfo[] = [
     //{ path: '/icons',         title: 'Icons',             icon:'nc-diamond',    class: '' },
     // { path: '/user',          title: 'User Profile',      icon:'nc-single-02',  class: '' },
     // { path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
-    { path: '/classopen', title: 'วิชาเปิดสอน',     icon:'nc-bullet-list-67',    class: '' },
+  //  { path: '/classopen', title: 'วิชาเปิดสอน',     icon:'nc-bullet-list-67',    class: '' },
     { path: '/table3',          title: 'จัดการรายวิชา',              icon:'nc-single-copy-04',      class: '' },
     { path: '/table2',       title: 'จัดการอุปกรณ์',    icon:'nc-spaceship',  class: '' },
     { path: '/table',         title: 'จัดการผู้ใช้',        icon:'nc-tile-56',    class: '' },

@@ -7,8 +7,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { HttpClientModule } from '@angular/common/http';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
-import { NavbarModule} from './shared/navbar/navbar.module';
-import { FixedPluginModule} from './shared/fixedplugin/fixedplugin.module';
+import { NavbarModule } from './shared/navbar/navbar.module';
+import { FixedPluginModule } from './shared/fixedplugin/fixedplugin.module';
 import { LoginComponent } from './login/login.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,7 +18,7 @@ import { AppRoutes } from './app.routing';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
-import { AngularFireModule} from 'angularfire2';
+import { AngularFireModule } from 'angularfire2';
 import { firebaseConfig } from '../environments/firebase.config';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -27,11 +27,10 @@ import { environment } from '../environments/environment';
 
 import { CheckComponent } from './check/check.component';
 
-
-import { MatSortModule,MatButtonModule,MatFormFieldModule,MatInputModule } from '@angular/material'
+import { MatSortModule, MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatIconModule} from '@angular/material/icon';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
 
 import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
@@ -43,7 +42,7 @@ import { FileUploadModule } from 'ng2-file-upload';
   ],
   imports: [
     BrowserAnimationsModule,
-    RouterModule.forRoot(AppRoutes,{
+    RouterModule.forRoot(AppRoutes, {
       useHash: true
     }),
     BrowserModule,
@@ -61,7 +60,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     AngularFireDatabaseModule,
     ReactiveFormsModule,
     MatSortModule,
-    MatButtonModule,MatPaginatorModule,MatIconModule,
+    MatButtonModule, MatPaginatorModule, MatIconModule,
     MatFormFieldModule,
     MatTableModule,
     MatInputModule,
@@ -71,4 +70,5 @@ import { FileUploadModule } from 'ng2-file-upload';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

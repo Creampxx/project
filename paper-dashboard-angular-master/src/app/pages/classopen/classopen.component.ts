@@ -10,6 +10,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { from } from 'rxjs';
 import Swal from 'sweetalert2';
+import { HttpClient } from '@angular/common/http';
 
 
 import { MatSort } from '@angular/material/sort';
@@ -37,25 +38,42 @@ let ELEMENT_DATA = [
 })
 
 export class ClassopenComponent implements OnInit {
-  
+  headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
+  idparam :any;
   displayedColumns: string[] = ['serialNumber', 'row', 'col', 'species'];
   
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  data: any;
 
   constructor(private toastr: ToastrService,
     private router: Router,
-    public authenticationService: AuthenticationService) {}
+    public authenticationService: AuthenticationService,
+    private activatedRoute: ActivatedRoute,private http: HttpClient) {}
 
   ngOnInit(){
+
+    this.activatedRoute.queryParams.subscribe(params => { console.log(params.id);
+    this.idparam = params.id });
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    console.log(this.authenticationService.currentUserValue)     
+    console.log(this.authenticationService.currentUserValue)    
         if(this.authenticationService.currentUserValue == null){
             this.router.navigateByUrl('/login');
         }
   }
+   
+
+
+     
+  getScannerByTeacher()
+  {
+    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSection', { headers: this.headers }).subscribe(result => {
+      this.data = result['data']
+      console.log(this.data)
+    });
+}
 }

@@ -27,7 +27,7 @@ export class UserComponent implements OnInit{
     users: Observable<unknown>;
     message: string;
     modalRef: any;
-    exname:null;
+    exname:any;
 
     constructor(public db: AngularFireDatabase,
         private modalService: BsModalService,
