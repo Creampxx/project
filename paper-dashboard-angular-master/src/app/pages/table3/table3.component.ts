@@ -42,6 +42,7 @@ export class Table3Component implements OnInit {
   subject: any;
   Equip: any;
   data: any;
+  datatimetest =[];
   scannerPro:any;
   Scanner: any[];
   timetable = new timetable()
@@ -56,8 +57,12 @@ export class Table3Component implements OnInit {
   day:any;
   starttime:any;
   endtime:any;
+  dtime:any;
   public menuItems: any[];
   Idsection:any;
+  sectionScan:any;
+  ScanScan:any;
+  selectedLevel;
   uploadedFile(event) {
     this.fileUploaded = event.target.files[0];
     console.log(this.fileUploaded)
@@ -253,16 +258,20 @@ export class Table3Component implements OnInit {
     this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getScannerByTeacher', { headers: this.headers }).subscribe(result => {
       this.scannerPro = result['data']
       console.log(this.scannerPro)
+      
     });
   }
   getSection() {
     this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSection', { headers: this.headers }).subscribe(result => {
       this.data = result['data']
       console.log(this.data)
+     
     });
   }
   SectionKey(data){
     console.log(data)
+    
+    console.log(this.scannerPro)
     this.exsection =data;
     this.exsection.id = data.id;
     this.dataArray = data.timetable;
@@ -278,31 +287,48 @@ export class Table3Component implements OnInit {
     // }
   }
   editSection(id,data:NgForm){
-    console.log(id)
-  //  for(let i =0;i<= this.data.length;i++){
-  //       this.day 
-  //       this.starttime
-  //       this.endtime
-  //  }
+    console.log(data)
+
   let scId = data.value.scId
-if(scId == undefined){
+  
+   data.value.timetable
+
+   this.ScannerID(); 
+   console.log(this.ScanScan)
+ if(scId == undefined){
+ 
      this.db.list("Section").update(id,{ 
       sectionNumber : data.value.sectionNumber,
       sId : data.value.sId,
-      scId:"เชื่อม",
+      scId: "เชื่อม",
       subject : data.value.subject,
       room: data.value.room,
       uId:  this.uId, 
-      timetable :this.dataArray 
+      timetable : this.dataArray
      });
-     this.getSection();
-    }else
+     this.db.list("Scanner").update(this.ScanScan.id,{
+      uId : this.uId});
+    this.getSection();
+    this.getScannerBy();
+  }else
     { 
+    
       this.db.list("Section").update(id,{
-      scId : scId});
+      scId : scId.scId});
+      this.db.list("Scanner").update(this.ScanScan.id,{
+        uId : this.uId});
       this.getSection();
+      this.getScannerBy();
+  
     }
   
+  }
+ScannerID()
+  {
+      this.ScanScan= this.scannerPro.id;
+      console.log(this.ScanScan.id)
+      console.log(this.ScanScan.scId)
+
   }
   delSection(data) {
     console.log(data.id);
@@ -333,6 +359,7 @@ if(scId == undefined){
     this.dataArray.splice(index)
   }
   confirm(): void {
+    // console.log("pass")
     this.message = 'Confirmed!';
     this.modalRef.hide();
     
@@ -344,8 +371,12 @@ if(scId == undefined){
     })
 
   }
-  Routering(data){
+  
+  Routering(data,i){
+  
     console.log(data)
+    console.log(i)
+    let Iden = i ;
     this.Idsection = data
     this.Idsection.key = data.id
     console.log(this.Idsection.key)
@@ -356,6 +387,8 @@ if(scId == undefined){
       }
     );
   }
-
+  customTrackBy(index: number, obj: any): any {
+    return index;
+}
   
 }

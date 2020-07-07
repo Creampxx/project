@@ -32,8 +32,8 @@
             </th>
            </thead>
            <tbody>
-            <tr *ngFor= "let a of data;let i = index">
-                <td><i style="background-color: white; border-color: white;" (click)="Routering(data[i])">{{data[i].subject}}</i></td>
+            <tr *ngFor= "let a of data;let b of scannerPro;let i = index">
+                <td><i style="background-color: white; border-color: white;" (click)="Routering(data[i],i)">{{data[i].subject}}</i></td>
                 <td>{{data[i].sId}}</td>
                 <td>{{data[i].sectionNumber}}</td>
                 <td (click)="openModal(import);getIDSection(data[i]);"><i class="nc-icon nc-cloud-download-93" type="button"></i></td>
@@ -202,7 +202,7 @@
                       <th>*Action</th> 
                     </thead>
                     <tbody>
-                      <tr *ngFor="let obj of dataArray;let i = index">
+                      <tr *ngFor="let obj of dataArray;let i = index;trackBy: customTrackBy">
                         <td> 
                             <select type="text" class="form-control" name="day{{i}}"  [(ngModel)]="dataArray[i].day">
                               <!-- <option *ngFor="let item of dataArray" [ngValue] = "item.day"  id="day" =>{{item.day}}</option> -->
@@ -216,11 +216,12 @@
                             </select>
                           </td>
                           <td>
-                            <input type="time" class="form-control"  placeholder="" value="" name="starttime{{i}}" [(ngModel)]="dataArray[i].starttime"></td>
+                            <input type="time" class="form-control"  placeholder="" value="" name="starttime{{i}}" [(ngModel)]="dataArray[i].starttime">
+                          </td>
                           <td>
                             <input type="time" class="form-control"  placeholder="" value="" name="endtime{{i}}" [(ngModel)]="dataArray[i].endtime"></td>
                             <td><button type="button" (click)="addForm()">+</button>
-                          <button *ngIf="i!=0" type="button" (click)="delForm(i)">-</button></td>
+                          <button *ngIf="i!=0" type="button" (click)="delForm(i)">-</button></td> 
                       </tr>
                     </tbody>
                   </table>
@@ -250,14 +251,15 @@
         <div class="col-md-4">
           <div class="card card-user">
             <div class="card-body">
-              <form (ngSubmit)="editSection(exsection.id,subjectForm)" #subjectForm="ngForm">
+              <form (ngSubmit)="editSection(scannerPro.id,subjectForm)" #subjectForm="ngForm">
                 <div class="row">
                   <label>อุปกรณ์</label><br>
-                  <select type="text" class="form-control"  name="scId" [(ngModel)]="exsection.scId">
-                      <option  *ngFor="let item of scannerPro"[ngValue] = "item.scId"  id = "scId">
+                  <select type="text" class="form-control"  name="scId" [(ngModel)]="scannerPro.scId" (change)="ScannerID()">
+                      <option  *ngFor="let item of scannerPro"[ngValue] = "item"  id = "scId" >
                         {{item.scId}}</option>
-                        <option value="">ยกเลิกเชื่อม</option>
+                        <option value="" >ยกเลิกเชื่อม</option>
                   </select>
+                  {{scannerPro.id | json}}
                 </div>
                 <div class="row">
                   <div class="update ml-auto mr-auto">

@@ -46,7 +46,7 @@ export class AuthenticationService {
                 this.router.navigateByUrl('/classopen');
             }
             else if(users.user.piority == "PROFESSOR"){
-                this.router.navigateByUrl('/table');
+                this.router.navigateByUrl('/table3');
             }
             else {
                 alert("รหัสผิด ไอ้โง่ แกไม่มีสิทธิ์ มาขอเข้าระบบฉัน!!!!");

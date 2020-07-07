@@ -4,43 +4,54 @@
       <div class="card-header">
         <div class="container">
           <div class="row">
-            <div class="col-sm">
+            <div class="col">
               วิชา:
-            </div>
-            <div class="col-sm">
-            </div>
-            <div class="col-6">
+              <div class="input-group mb-3">
+              <label>{{dataSection.subject}}</label>  
+         </div>
             </div>
             <div class="col-sm">
               ครูผู้สอน:
+              <div class="input-group mb-3">
+                <label>{{name}}</label>
+           </div>
             </div>
           </div>
           <br>
           <div class="row">
             <div class="col-sm">
-              หมู่เรียน:
+              หมู่เรียน: <div class="input-group mb-3" >
+               <label>{{dataSection.sectionNumber}}</label>
+           </div>
             </div>
             <div class="col-sm">
               เวลาเรียน:
+              <div class="input-group mb-3" *ngFor="let a of datatableTime;let i = index">
+               <label>{{ datatableTime[i].day+"/"+ datatableTime[i].starttime+"/"+ datatableTime[i].endtime}}</label>
+           </div>
             </div>
             <div class="col-sm">
-              ห้องเรียน:
+              ห้องเรียน:<div class="input-group mb-3">
+                <label >{{dataSection.room}}</label>
+           </div>
             </div>
             <div class="col-sm">
             </div>
             <div class="col-sm">
-              สาย: <input type="text">
+              สาย: <input type="number"  class="form-control" name="timelate">
             </div>
           </div>
           <br>
           <div class="row">
             <div class="col-sm">
-              เครื่องสแกนที่:
+              
+              <div class="input-group mb-3">
+               <label>อุปกรณ์ที่ใช้งาน:{{dataSection.scId}}</label>
+           </div>
             </div>
             <div class="col-6">
             </div>
-            <div class="col-sm">
-            </div>
+        
             <div class="col-sm">
               <button type="button" class="btn btn-outline-secondary btn-rounded waves-effect">export</button>
             </div>
@@ -48,119 +59,38 @@
         </div>
       </div>
 
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
+      <div class="table-wrapper-scroll-y my-custom-scrollbar">
+        <table class="table">
+          <thead class="text-primary">
             <tr>
               <th style="position: sticky;">รหัสนิสิต</th>
               <th style="position: sticky;">ชื่อ - นามสกุล</th>
-              <th>data1</th>
+              <th >data1</th>
               <th>data2</th>
               <th>data3</th>
               <th>data4</th>
               <th>data5</th>
               <th>data6</th>
-              <th>data7</th>
-              <th>data8</th>
-              <th>data9</th>
-              <th>data10</th>
-              <th>data11</th>
-              <th>data12</th>
-              <th>data13</th>
-              <th>data14</th>
-              <th>data15</th>
-              <th>data16</th>
-              <th>data17</th>
-              <th>data18</th>
-              <th>data19</th>
-              <th>data20</th>
+          
               <th>มา</th>
               <th>ขาด</th>
               <th>สาย</th>
             </tr>
           </thead>
           <tbody>
-            <!-- <tr>
-              <td style="position: sticky; width: 100px;">John</td>
-              <td style="position: sticky; width: 120px;">Doe</td>
-              <td>i</td>
-              <td>pie</td>
-              <td>beam</td>
-              <td>naphun</td>
-              <td>เสี่ย</td>
-              <td>creampxx</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>i</td>
-              <td>4</td>
-              <td>0</td>
-              <td>4</td>
-            </tr> -->
-            <!-- <tr>
-              <td style="position: sticky; width: 100px;">Mary</td>
-              <td style="position: sticky; width: 120px;">Moe</td>
-              <td style="width: 120px; background-color:lawngreen">ต้อง</td>
-              <td style="width: 120px; background-color:lawngreen">มา</td>
-              <td style="width: 120px; background-color:lawngreen">นั่ง</td>
-              <td style="width: 120px; background-color:lawngreen">ทำ</td>
-              <td style="width: 120px; background-color:lawngreen">งาน</td>
-              <td style="width: 120px; background-color:lawngreen">ให้</td>
-              <td style="width: 120px; background-color:lawngreen">เพื่อน</td>
-              <td style="width: 120px; background-color:lawngreen">แต่</td>
-              <td style="width: 120px; background-color:lawngreen">เพื่อน</td>
-              <td style="width: 120px; background-color:lawngreen">ไป</td>
-              <td style="width: 120px; background-color:lawngreen">เล่น</td>
-              <td style="width: 120px; background-color:lawngreen">เกมส์</td>
-              <td style="width: 120px; background-color:lawngreen">กับ</td>
-              <td style="width: 120px; background-color:lawngreen"><b><i><u>..</u></i></b></td>
-              <td style="width: 120px; background-color:lawngreen"><b><i><u>..</u></i></b></td>
-              <td style="width: 120px; background-color:lawngreen"><b><i><u>..</u></i></b></td>
-              <td style="width: 120px; background-color:lawngreen"><b><i><u>..</u></i></b></td>
-              <td style="width: 120px; background-color:lawngreen"><b><i><u>..</u></i></b></td>
-              <td style="width: 120px; background-color:lawngreen"><b><i><u>..</u></i></b></td>
-              <td style="width: 120px; background-color:lawngreen"><b><i><u>..</u></i></b></td>
-              <td>4</td>
-              <td>0</td>
-              <td>4</td>
-            </tr> -->
-            <!-- <tr>
-              <td style="position: sticky; width: 100px;">July</td>
-              <td style="position: sticky; width: 120px;">Dooley</td>
-              <td>you</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuch</td>
-              <td>nuchmin</td>
-              <td>nuchmin</td>
-              <td>4</td>
-              <td>0</td>
-              <td>4</td>
-            </tr> -->
+         <tr *ngFor="let a of datatableUser;let i =index" >
+           <td>{{datatableUser[i].uId}}</td>
+           <td >{{datatableUser[i].name+" "+datatableUser[i].surname}}</td>
+           <td>{{timeAttenTest}}</td>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td></td>
+           <td></td>
+        
+         </tr>
+                  
           </tbody>
         </table>
       </div>
@@ -168,4 +98,3 @@
   </div>
 </div>
 
-{{ idparam}}

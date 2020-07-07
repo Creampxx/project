@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { data } from 'jquery';
 
 
 let ELEMENT_DATA = [
@@ -40,40 +41,77 @@ let ELEMENT_DATA = [
 export class ClassopenComponent implements OnInit {
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
   idparam :any;
+  Idenparam:any;
   displayedColumns: string[] = ['serialNumber', 'row', 'col', 'species'];
-  
+  stdname:any;
+  stduId:any;
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  data: any;
-
+  dataSection: any;
+  User: any;
+  name: any;
+  day:any;
+  subject:any;
+  CLOSE: boolean = true;
+  datatableUser:any;
+  datatableTime:any;
+  Activetime:any;
   constructor(private toastr: ToastrService,
     private router: Router,
     public authenticationService: AuthenticationService,
     private activatedRoute: ActivatedRoute,private http: HttpClient) {}
 
   ngOnInit(){
-
-    this.activatedRoute.queryParams.subscribe(params => { console.log(params.id);
+    console.log(this.authenticationService.currentUserValue['token'])
+    this.activatedRoute.queryParams.subscribe(params => { console.log(params.id)
+     ;
+      this.User = this.authenticationService.currentUserValue['user'];
+      this.name = this.authenticationService.currentUserValue['user']['fullname']
+      
+       console.log(this.name)
     this.idparam = params.id });
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    console.log(this.authenticationService.currentUserValue)    
+    this.dataSource.sort = this.sort;                                                         
+    this.dataSource.paginator = this.paginator; 
         if(this.authenticationService.currentUserValue == null){
             this.router.navigateByUrl('/login');
         }
+        this.getSectionData();
+       
   }
    
-
+  
 
      
-  getScannerByTeacher()
+  getSectionData()
   {
-    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSection', { headers: this.headers }).subscribe(result => {
-      this.data = result['data']
-      console.log(this.data)
+   let dataid = this.idparam
+    
+   console.log(dataid)
+    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSectionData/'+dataid,{ headers: this.headers }).subscribe(result => {
+      this.dataSection = result['data'][0]
+      console.log(this.dataSection)
+       console.log(this.dataSection.subject)
+      this.datatableTime = this.dataSection.timetable
+      this.datatableUser = this.dataSection.student
+      console.log(this.datatableUser)
+      this.Activetime = this.datatableTime.day+"/"+this.datatableTime.starttime+"/"+this.datatableTime.endtime
+          
+        
+       
     });
 }
+   ScannerConnect(){
+     console.log()
+     if(this.dataSection.scId == "")
+     {
+     this.router.navigateByUrl('/table2');
+    }
+     else
+     {
+      this.CLOSE = false
+     }
+   }
 }
