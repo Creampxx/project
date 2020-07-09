@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+          <div class="table-responsive-md">
+            <table class="table">
+              <thead class=" text-primary">
+                <th align= "center" >
+                 รายวิชา
+                </th>
+                <th align="center" >
+                  รหัสวิชา
+                </th>
+                <th align="center" >
+                  หมู่เรียน
+                </th>
+                <th align="center" >
+                ห้องที่เรียน
+                </th>
+              </thead>
+              <tbody>
+            <tr *ngFor="let a of data;let i = index">
+                 <td align="" style="background-color: white; border-color: white;" (click)="Routering(data[i],i)">{{data[i].subject}}</td>
+                 <td align="">{{data[i].section_id}}</td>
+                 <td align="">{{data[i].sectionNumber}}</td>
+                 <td align="">{{data[i].room}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>

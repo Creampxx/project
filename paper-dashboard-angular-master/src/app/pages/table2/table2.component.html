@@ -22,10 +22,10 @@
               <th>
                 สถานะ
               </th>
-              <th class="text-right">
+              <th style="text-align: center;">
                 แก้ไขอุปกรณ์
               </th>
-              <th class="text-right">
+              <th style="text-align: center;">
                 ลบ
               </th>
             </thead>
@@ -35,8 +35,8 @@
                <td>{{data[i].name+" "+data[i].surname}}</td>
                <td>{{data[i].uId}}</td>
                <td [ngStyle]="{'color': b[i]=='ว่าง' ? 'green':'red'}">{{b[i]}}</td>
-               <td class="text-right"><i class="nc-icon nc-settings-gear-65" type="button" (click)="editEquip(data[i]);openModal(B)"></i></td>
-               <td class="text-right"><i class="nc-icon nc-box" type="button" (click)="delEquipment(data[i])"></i></td>
+               <td style="text-align: center;"><i class="nc-icon nc-settings-gear-65" type="button" (click)="editEquip(data[i]);openModal(B)"></i></td>
+               <td style="text-align: center;"><i class="nc-icon nc-box" type="button" (click)="delEquipment(data[i])"></i></td>
               </tr>
             </tbody>
           </table>

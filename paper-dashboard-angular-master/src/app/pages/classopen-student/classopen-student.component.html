@@ -1,0 +1,83 @@
+
+<div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="container">
+            <div class="row">
+              <div class="col">
+                
+                <div class="input-group mb-3">
+                <label>วิชา:Database</label>  
+           </div>
+              </div>
+              <div class="col-sm">
+                
+                <div class="input-group mb-3">
+                  <label>ครูผู้สอน:อ.เอ บีซีดีอี</label>
+             </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-sm">
+               <div class="input-group mb-3" >
+                 <label> หมู่เรียน:02204</label>
+             </div>
+              </div>
+              <div class="col-sm">
+                
+                <div class="input-group mb-3" *ngFor="let a of datatableTime;let i = index">
+                 <label>เวลาเรียน:</label>
+             </div>
+              </div>
+              <div class="col-sm">
+               <div class="input-group mb-3">
+                  <label>ห้องเรียน:TUE/17:00/18.30</label>
+             </div>
+              </div>
+              <div class="col-sm">
+              </div>           
+            </div>          
+          </div>
+        </div>
+  
+        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <table class="table">
+            <thead class="text-primary">
+              <tr>
+                <th style="position: sticky;">รหัสนิสิต</th>
+                <th style="position: sticky;">ชื่อ - นามสกุล</th>
+                <th>01/07/2020</th>
+                <th>03/07/2020</th>
+                <th>08/07/2020</th>
+                <th>10/07/2020</th>
+                <th>...</th>
+                <th>มา</th>
+                <th>ขาด</th>
+                <th>สาย</th>
+              </tr>
+            </thead>
+            <tbody>
+           <tr>
+             <td>{{uId}}</td>
+             <td>{{name}}</td>
+             <td  style="background-color: green;text-align: center;">17:01</td>
+             <td style="background-color: green;text-align: center;">17:30</td>
+             <td style="background-color: green;text-align: center;">17:15</td>
+             <td style="background-color: red;text-align: center;">-</td>
+             <td style="background-color: yellow;text-align: center;">17:42</td>
+             <td style="color: green;text-align: center;">3</td>
+             <td style="color: red;text-align: center;">1</td>
+             <td style="color: yellow;text-align: center;">1</td>
+          
+           </tr>
+                    
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  

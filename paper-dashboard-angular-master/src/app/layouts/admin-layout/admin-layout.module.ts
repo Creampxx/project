@@ -10,11 +10,13 @@ import { UserComponent }            from '../../pages/user/user.component';
 import { TableComponent }           from '../../pages/table/table.component';
 import { TypographyComponent }      from '../../pages/typography/typography.component';
 import { IconsComponent }           from '../../pages/icons/icons.component';
-import { MapsComponent }            from '../../pages/maps/maps.component';
+import { StudentClassComponent }    from '../../pages/student-class/student-class.component';
+
 import { ClassopenComponent }       from '../../pages/classopen/classopen.component';
 import { Table2Component }          from '../../pages/table2/table2.component';
 import { Table3Component }          from '../../pages/table3/table3.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClassopenStudentComponent } from 'app/pages/classopen-student/classopen-student.component';
 
 @NgModule({
   imports: [
@@ -31,8 +33,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     Table3Component,
     TypographyComponent,
     IconsComponent,
-    MapsComponent,
+    StudentClassComponent,
     ClassopenComponent,
+    ClassopenStudentComponent
   ]
 })
 

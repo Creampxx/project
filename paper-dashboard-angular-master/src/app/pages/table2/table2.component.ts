@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { BsModalService } from 'ngx-bootstrap';
 import { NgForm } from '@angular/forms';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
@@ -20,9 +20,10 @@ import { AuthenticationService } from '../../_services';
 })
 
 export class Table2Component implements OnInit {
+  headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
   scannerList: AngularFireList<any>;
   userList: AngularFireList<any>;
-
+  sectionList:AngularFireList<any>;
   b = [];
   set: true;
   name: any;
@@ -46,6 +47,7 @@ export class Table2Component implements OnInit {
     public authenticationService: AuthenticationService) {
     this.scannerList = db.list('Scanner');
     this.userList = db.list('User');
+    this.sectionList =db.list('Section');
 
   }
 
@@ -139,10 +141,12 @@ export class Table2Component implements OnInit {
     this.getScanner();
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
   }
-  delEquipment(data) {
+  async delEquipment(data) {
     console.log(data.id);
+    console.log(data)
+
     Swal.fire({
-      title: 'คุณต้องการที่จะลบค่าทั้งหมดหรือไม่?',
+      title: 'คุณต้องการที่จะลบอุปกรณ์นี้หรือไม่?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -150,7 +154,22 @@ export class Table2Component implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-    this.scannerList.remove(data.id);
+         this.http.delete('http://localhost:5001/verification-classrooms/us-central1/api/deleteScanner/' + data.id, { headers: this.headers })
+    .subscribe((ok) => { console.log(ok) });
+    // this.scannerList.remove(data.id)
+    // .then(() => {
+    //   this.db.database.ref('/Section').once('value')
+    //   .then(sections => {
+    //     sections.forEach(s => {
+    //       if(s.val().scId === data.scId ){
+    //          this.db.database.ref('/Section').child(s.key).update({
+    //            scId : ""
+    //          })
+    //       }
+    //     })
+    //   })
+    // });
+   
     this.getScanner();
     Swal.fire('ลบค่าเรียบร้อย!', '', 'success')
 }

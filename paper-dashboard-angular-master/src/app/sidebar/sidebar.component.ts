@@ -15,7 +15,7 @@ export const ROUTES1: RouteInfo[] = [
     //{ path: '/icons',         title: 'Icons',             icon:'nc-diamond',    class: '' },
     // { path: '/user',          title: 'User Profile',      icon:'nc-single-02',  class: '' },
     // { path: '/typography',    title: 'Typography',        icon:'nc-caps-small', class: '' },
-    { path: '/classopen', title: 'วิชาเปิดสอน',     icon:'nc-bullet-list-67',    class: '' },
+    { path: '/student-class', title: 'วิชาที่เรียน',     icon:'nc-bullet-list-67',    class: '' },
     { path: '/user',     title: 'แก้ไขข้อมูลส่วนตัว',        icon:'nc-settings',       class: '' },
 ];
 

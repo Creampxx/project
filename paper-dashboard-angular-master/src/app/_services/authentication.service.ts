@@ -43,7 +43,7 @@ export class AuthenticationService {
             localStorage.setItem('currentUser', JSON.stringify(users))
             this.currentUserSubject.next(users);
             if(users.user.piority == "NISIT"){
-                this.router.navigateByUrl('/classopen');
+                this.router.navigateByUrl('/student-class');
             }
             else if(users.user.piority == "PROFESSOR"){
                 this.router.navigateByUrl('/table3');

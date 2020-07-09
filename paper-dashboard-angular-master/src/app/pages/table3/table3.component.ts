@@ -3,7 +3,7 @@ import { BsModalService } from 'ngx-bootstrap';
 import { HttpClient } from '@angular/common/http'
 import { NgForm } from '@angular/forms';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { map } from 'rxjs/operators';
+import { map, groupBy, mergeMap, toArray } from 'rxjs/operators';
 import { HttpHeaders } from '@angular/common/http';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ import { FileUploader } from 'ng2-file-upload';
 import * as XLSX from 'xlsx';
 import { DataSource } from '@angular/cdk/table';
 import { R3ResolvedDependencyType } from '@angular/compiler';
+import { from } from 'rxjs';
 export interface RouteInfo {
   path: string;
   title: string;
@@ -22,7 +23,7 @@ export interface RouteInfo {
   class: string;
 }
 export const ROUTES1: RouteInfo[] = [
-  { path: '/classopen', title: 'วิชาเปิดสอน',     icon:'nc-bullet-list-67',    class: '' }
+  { path: '/classopen', title: 'วิชาเปิดสอน', icon: 'nc-bullet-list-67', class: '' }
 ];
 @Component({
   selector: 'app-table3',
@@ -38,41 +39,42 @@ export class Table3Component implements OnInit {
   modalRef: any;
   message: string;
   sId: any;
-  sectionNumber:any;
+  sectionNumber: any;
   subject: any;
   Equip: any;
   data: any;
-  datatimetest =[];
-  scannerPro:any;
+  datatimetest = [];
+  scannerPro: any;
+  scannerProP: any;
   Scanner: any[];
   timetable = new timetable()
   dataArray = [];
   storeData: any;
   jsonData: any;
-  chooseFile :string = 'Choose File';
+  chooseFile: string = 'Choose File';
   worksheet: any;
   fileUploaded: File;
-  uId:any[];
-  exsection:any;
-  day:any;
-  starttime:any;
-  endtime:any;
-  dtime:any;
+  uId: any[];
+  exsection: any;
+  day: any;
+  starttime: any;
+  endtime: any;
+  dtime: any;
   public menuItems: any[];
-  Idsection:any;
-  sectionScan:any;
-  ScanScan:any;
-  selectedLevel;
+  Idsection: any;
+  sectionScan: any;
+  ScanScan: any;
+  selectedScan: any;
   uploadedFile(event) {
     this.fileUploaded = event.target.files[0];
     console.log(this.fileUploaded)
     this.readExcel();
-    if(typeof(this.fileUploaded)=='undefined'){
+    if (typeof (this.fileUploaded) == 'undefined') {
       console.log("Please choose file");
       this.chooseFile = '';
-    }else{
-      this.chooseFile = this.fileUploaded.name;  
-   
+    } else {
+      this.chooseFile = this.fileUploaded.name;
+
     }
   }
   // uploader: FileUploader = new FileUploader({ url: "api/your_upload", removeAfterUpload: false, autoUpload: true });
@@ -84,7 +86,7 @@ export class Table3Component implements OnInit {
   }
   newDynamic: any = {};
   ngOnInit() {
-    this.chooseFile ="Choose File";
+    this.chooseFile = "Choose File";
     this.menuItems = ROUTES1.filter(menuItem => menuItem);
     this.dataArray.push(this.timetable)
     this.uId = this.authenticationService.currentUserValue['user']['uId'];
@@ -102,47 +104,48 @@ export class Table3Component implements OnInit {
     });
     this.getSection();
     this.getScannerBy();
+
   }
   openModal(template: TemplateRef<any>) {
- 
-      // this.dataArray = [];
-      // this.dataArray.push(this.timetable)
-   
-    this.chooseFile ="Choose File";
+
+    // this.dataArray = [];
+    // this.dataArray.push(this.timetable)
+
+    this.chooseFile = "Choose File";
     this.getSection();
+    this.getScannerBy();
     this.modalRef = this.modalService.show(template, Object.assign({}, { class: 'modal-lg' }));
   }
 
-  pressAdd(){
+  pressAdd() {
     this.dataArray = [];
     this.dataArray.push(this.timetable)
   }
   AddSection(dataForm: NgForm) {
-     
+
     let data = {
-      sectionNumber : dataForm.value.sectionNumber,
-      sId : dataForm.value.sId,
-      subject : dataForm.value.subject,
+      sectionNumber: dataForm.value.sectionNumber,
+      sId: dataForm.value.sId,
+      subject: dataForm.value.subject,
       room: dataForm.value.room,
       scId: "",
-      uId:  this.uId, 
-      timetable :this.dataArray
-        
+      uId: this.uId,
+      timetable: this.dataArray
+
     }
-    
+
     this.db.database.ref('/Section').push(data)
-    .then(() => {
-      console.log("Add Success")
-    })
-    
+      .then(() => {
+        console.log("Add Success")
+      })
+
     console.log(this.dataArray)
     console.log(data)
     this.getSection();
   }
   getIDSection(data) {
-    this.section = data
-    // console.log(data)
-    this.section = data.id;
+    this.section_id = data.id;
+    // console.log(this.section.id)
   }
   readExcel() {
     let readFile = new FileReader();
@@ -253,26 +256,25 @@ export class Table3Component implements OnInit {
         })
     }
   }
-  getScannerBy()
-  {
+  getScannerBy() {
     this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getScannerByTeacher', { headers: this.headers }).subscribe(result => {
       this.scannerPro = result['data']
       console.log(this.scannerPro)
-      
+
     });
   }
   getSection() {
     this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSection', { headers: this.headers }).subscribe(result => {
       this.data = result['data']
       console.log(this.data)
-     
+
     });
   }
-  SectionKey(data){
+  SectionKey(data) {
     console.log(data)
-    
+
     console.log(this.scannerPro)
-    this.exsection =data;
+    this.exsection = data;
     this.exsection.id = data.id;
     this.dataArray = data.timetable;
     // for(let i = 0; i < data.timetable.length; i++){ 
@@ -286,48 +288,68 @@ export class Table3Component implements OnInit {
     //   }
     // }
   }
-  editSection(id,data:NgForm){
-    console.log(data)
-
-  let scId = data.value.scId
-  
-   data.value.timetable
-
-   this.ScannerID(); 
-   console.log(this.ScanScan)
- if(scId == undefined){
- 
-     this.db.list("Section").update(id,{ 
-      sectionNumber : data.value.sectionNumber,
-      sId : data.value.sId,
-      scId: "เชื่อม",
-      subject : data.value.subject,
-      room: data.value.room,
-      uId:  this.uId, 
-      timetable : this.dataArray
-     });
-     this.db.list("Scanner").update(this.ScanScan.id,{
-      uId : this.uId});
-    this.getSection();
-    this.getScannerBy();
-  }else
-    { 
-    
-      this.db.list("Section").update(id,{
-      scId : scId.scId});
-      this.db.list("Scanner").update(this.ScanScan.id,{
-        uId : this.uId});
+  async editSection(id, data: NgForm) {  
+    data.value.timetable
+    console.log(data.value)
+      console.log(data.value)
+      this.db.list("Section").update(id, {
+        sectionNumber: data.value.sectionNumber,
+        sId: data.value.sId,
+        subject: data.value.subject,
+        room: data.value.room,
+        uId: this.uId,
+        timetable: this.dataArray
+      });
+     
       this.getSection();
       this.getScannerBy();
-  
-    }
-  
+    
+   
+
   }
-ScannerID()
-  {
-      this.ScanScan= this.scannerPro.id;
-      console.log(this.ScanScan.id)
-      console.log(this.ScanScan.scId)
+  async editScanner(id, data: NgForm){
+    this.ScannerID();
+    console.log(this.ScanScan.id)
+    let scan = {
+       scanner_id: this.ScanScan.id,
+       scanner:this.ScanScan.scId 
+     }
+
+    console.log(data.value.scId)
+  console.log(this.exsection.scId)
+  console.log(this.exsection.id)
+    
+  if(data.value.scId === ""){
+     scan.scanner_id = "";
+     scan.scanner = "";
+    await this.http.put<any>(`http://localhost:5001/verification-classrooms/us-central1/api/updateScanner/${this.exsection.id}`, scan,{ headers: this.headers }).subscribe(result => {
+      this.data = result['data']
+      console.log(this.data)});
+  }
+  else{
+    console.log(scan)
+    // console.log(`http://localhost:5001/verification-classrooms/us-central1/api/updateScanner/${this.exsection.id}`)
+    await this.http.put<any>(`http://localhost:5001/verification-classrooms/us-central1/api/updateScanner/${this.exsection.id}`,scan ,{ headers: this.headers }).subscribe(result => {
+      // this.data = result['data']
+      // console.log(result)
+      // console.log(this.data)
+    });
+  }
+            await this.getSection();
+            await this.getScannerBy();
+  }
+  ScannerID() {
+
+    console.log(this.scannerPro.scId)
+    if (this.scannerPro.scId !== undefined) {
+      this.ScanScan = this.scannerPro.scId;
+    }
+    else {
+      console.log("undefinedddddd!!!!")
+    }
+
+    // console.log(this.ScanScan.id)
+    // console.log(this.ScanScan.scId)
 
   }
   delSection(data) {
@@ -342,13 +364,13 @@ ScannerID()
     }).then((result) => {
       if (result.value) {
         this.http.delete('http://localhost:5001/verification-classrooms/us-central1/api/deleteSection/' + data.id, { headers: this.headers })
-        .subscribe((ok)=>{console.log(ok)});
+          .subscribe((ok) => { console.log(ok) });
         this.getSection();
         Swal.fire('ลบค่าเรียบร้อย!', '', 'success')
-       
+
       }
     })
-    
+
   }
   addForm() {
     this.timetable = new timetable()
@@ -362,33 +384,31 @@ ScannerID()
     // console.log("pass")
     this.message = 'Confirmed!';
     this.modalRef.hide();
-    
+
   }
-  importSuccess(){
+  importSuccess() {
     Swal.fire({
       icon: 'success',
-      title: 'import สำเร็จ'       
+      title: 'import สำเร็จ'
     })
 
   }
-  
-  Routering(data,i){
-  
+
+  Routering(data) {
+
     console.log(data)
-    console.log(i)
-    let Iden = i ;
     this.Idsection = data
     this.Idsection.key = data.id
     console.log(this.Idsection.key)
     this.router.navigate(['/classopen'], {
-        queryParams: {
-          id: this.Idsection.key,subject:this.Idsection.subject
-        }
+      queryParams: {
+        id: this.Idsection.key, subject: this.Idsection.subject
       }
+    }
     );
   }
   customTrackBy(index: number, obj: any): any {
     return index;
-}
-  
+  }
+ 
 }
