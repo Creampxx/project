@@ -14,6 +14,12 @@ import { AuthenticationService } from '../../_services';
   styleUrls: ['./student-class.component.scss']
 })
 export class StudentClassComponent implements OnInit {
+
+//Hosting
+API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+// API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+
+
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
   data: any;
   Idsection: any;
@@ -32,17 +38,17 @@ export class StudentClassComponent implements OnInit {
   }
 
   getSectionForStudent(){
-    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSectionforStudent', { headers: this.headers }).subscribe(result => {
+    this.http.get<any>(`${this.API_SERVER}getSectionforStudent`, { headers: this.headers }).subscribe(result => {
       this.data = result['data']
       console.log(this.data)
     });
   }
-
+ 
   Routering(data) {
 
     console.log(data)
     this.Idsection = data
-    this.Idsection.key = data.id
+    this.Idsection.key = data.secid
     console.log(this.Idsection.key)
     this.router.navigate(['/classopen-student'], {
       queryParams: {

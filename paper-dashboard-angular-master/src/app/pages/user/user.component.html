@@ -37,13 +37,13 @@
             <div class="col-md-6 pr-1">
               <div class="form-group">
                 <label>รหัสผ่าน</label>
-                <input type="text" class="form-control" name="password" placeholder="Password" [(ngModel)]="User.password"  disabled="disabled">
+                <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="User.password"  disabled="disabled">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="update ml-auto mr-auto">
-              <button type="submit" class="btn btn-primary btn-round" (click)="openModal(A)"> Update Profile </button>
+              <button type="submit" class="btn btn-primary btn-round" (click)="openModal(A)"> แก้ไขข้อมูลส่วนตัว </button>
             </div>
           </div>
        
@@ -96,7 +96,15 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>รหัสผ่าน:</label>
-                        <input type="text" class="form-control"  placeholder="รหัสผ่าน" id="password" name="password"  [(ngModel)]="exname.password" >
+                        <input type="password" class="form-control"  placeholder="รหัสผ่าน" id="password" name="password" modelConfirmPassword="ngModel" [(ngModel)]="exname.password" >
+                        <!-- <label>ยืนยันรหัสผ่าน</label>
+                        <input type="password" class="form-control" ngValidateEqual="password" #modelConfirmPassword="ngModel" [(ngModel)]="exname.confirmPassword" placeholder="ยืนยันรหัสผ่าน">
+
+                        <div *ngIf="(modelConfirmPassword.dirty || modelConfirmPassword.touched) && modelConfirmPassword.invalid">
+                        <p class="warning-text" *ngIf="modelConfirmPassword.hasError('notEqual') && modelPassword.valid">
+                         รหัสผ่านไม่ตรงกัน
+                        </p>
+                        </div> -->
                         <label style="color: red;">*รหัสผ่านต้องมีมากกว่า 6 ตัวอักษร</label>
                       </div>
                     </div>

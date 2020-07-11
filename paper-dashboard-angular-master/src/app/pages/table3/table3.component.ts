@@ -31,6 +31,13 @@ export const ROUTES1: RouteInfo[] = [
   styleUrls: ['./table3.component.scss']
 })
 export class Table3Component implements OnInit {
+
+  //Hosting
+    API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+    // API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+
+
+
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
   sectionList: AngularFireList<any>;
   scannerList: AngularFireList<any>;
@@ -128,20 +135,69 @@ export class Table3Component implements OnInit {
       sId: dataForm.value.sId,
       subject: dataForm.value.subject,
       room: dataForm.value.room,
+      timelate:15,
       scId: "",
       uId: this.uId,
       timetable: this.dataArray
 
     }
-
-    this.db.database.ref('/Section').push(data)
-      .then(() => {
-        console.log("Add Success")
+    if(data.sectionNumber =="" || data.room =="" || data.sId ==""|| data.subject==""|| data.timetable ==[])
+    {
+      Swal.fire({
+        icon: 'error',
+        title: 'ผิดพลาด',
+        text: 'กรุณากรอกค่าให้ครบทุกช่อง',
+        footer: ''
       })
 
-    console.log(this.dataArray)
-    console.log(data)
-    this.getSection();
+    }else{
+      const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
+        
+        swalWithBootstrapButtons.fire({
+          title: 'จะเพิ่มรายวิชานี้ใช่หรือไม่?',
+          text: "",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'เพิ่ม',
+          cancelButtonText: 'กลับไปแก้ไข',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            this.db.database.ref('/Section').push(data)
+            .then(() => {
+              console.log("Add Success")
+            })
+      
+          console.log(this.dataArray)
+          console.log(data)
+          this.getSection();
+             this.confirm();
+            swalWithBootstrapButtons.fire(
+              'เพิ่มรายวิชาเรียบร้อย',
+              '',
+              'success'
+            )
+         
+          } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+          ) {
+            swalWithBootstrapButtons.fire(
+              'ยกเลิก',
+              'กลับไปแก้ไขค่า',
+              'error'
+            )
+          }
+        })
+      }
+
+    
   }
   getIDSection(data) {
     this.section_id = data.id;
@@ -163,8 +219,11 @@ export class Table3Component implements OnInit {
     readFile.readAsArrayBuffer(this.fileUploaded);
   }
   async UploadFile() {
+  
     const data = await this.UserImport(this.jsonData);
     console.log("Add Success")
+      this.importSuccess();
+              this.confirm();
   }
   UserImport = async (data) => {
     if (data === undefined) {
@@ -172,12 +231,14 @@ export class Table3Component implements OnInit {
       Swal.fire({
         icon: 'error',
         title: 'กรุณาเลือกไฟล์ที่จะ upload',
-        text: 'Something went wrong!',
-        footer: '<a href>Why do I have this issue?</a>'
+        text: '',
+        footer: ''
       })
     }
+    
     else {
       let datarr = Object.values(data);
+      
       let registration = [];
       await this.db.database.ref('Regis').once('value')
         .then(async regis => {
@@ -189,7 +250,7 @@ export class Table3Component implements OnInit {
               })
             }
           })
-
+          
           let p = [];
           for (let i = 0; i < datarr.length; i++) {
             let exists = false;
@@ -209,7 +270,7 @@ export class Table3Component implements OnInit {
           }
           await Promise.all(p)
         })
-
+        
       let usersdb = [];
       await this.db.database.ref("User").once('value')
         .then(result_user => {
@@ -248,23 +309,26 @@ export class Table3Component implements OnInit {
                 password: passwd,
                 piority: "NISIT"
               }
-              this.http.post<any>('http://localhost:5001/verification-classrooms/us-central1/api/signup', d, { headers: this.headers }).subscribe(result => {
+              
+              this.http.post<any>(`${this.API_SERVER}signup`, d, { headers: this.headers }).subscribe(result => {
                 // console.log(result);
+                
               });
-            }
+          
+            } 
           }
-        })
+        }); 
     }
   }
   getScannerBy() {
-    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getScannerByTeacher', { headers: this.headers }).subscribe(result => {
+    this.http.get<any>(`${this.API_SERVER}getScannerByTeacher`, { headers: this.headers }).subscribe(result => {
       this.scannerPro = result['data']
       console.log(this.scannerPro)
 
     });
   }
   getSection() {
-    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSection', { headers: this.headers }).subscribe(result => {
+    this.http.get<any>(`${this.API_SERVER}getSection`, { headers: this.headers }).subscribe(result => {
       this.data = result['data']
       console.log(this.data)
 
@@ -292,6 +356,11 @@ export class Table3Component implements OnInit {
     data.value.timetable
     console.log(data.value)
       console.log(data.value)
+      Swal.fire(
+        'แก้ไขเรียบร้อย',
+        '',
+        'success'
+      )
       this.db.list("Section").update(id, {
         sectionNumber: data.value.sectionNumber,
         sId: data.value.sId,
@@ -318,24 +387,37 @@ export class Table3Component implements OnInit {
     console.log(data.value.scId)
   console.log(this.exsection.scId)
   console.log(this.exsection.id)
+  Swal.fire(
+    'แก้ไขเรียบร้อย',
+    '',
+    'success'
+  )
     
   if(data.value.scId === ""){
      scan.scanner_id = "";
      scan.scanner = "";
-    await this.http.put<any>(`http://localhost:5001/verification-classrooms/us-central1/api/updateScanner/${this.exsection.id}`, scan,{ headers: this.headers }).subscribe(result => {
+    await this.http.put<any>(`${this.API_SERVER}updateScanner/${this.exsection.id}`, scan,{ headers: this.headers }).subscribe(result => {
       this.data = result['data']
       console.log(this.data)});
   }
   else{
+    this.db.database.ref('/Section').orderByChild('scId').equalTo(data.value.scId).once('value')
+    .then(async sc => {
+      if(sc.numChildren() >= 1){
+        alert("ห้ามเครื่อง1มีมากกว่า 1 วิชา")
+      }
+      else{
     console.log(scan)
     // console.log(`http://localhost:5001/verification-classrooms/us-central1/api/updateScanner/${this.exsection.id}`)
-    await this.http.put<any>(`http://localhost:5001/verification-classrooms/us-central1/api/updateScanner/${this.exsection.id}`,scan ,{ headers: this.headers }).subscribe(result => {
+    await this.http.put<any>(`${this.API_SERVER}updateScanner/${this.exsection.id}`,scan ,{ headers: this.headers }).subscribe(result => {
       // this.data = result['data']
       // console.log(result)
       // console.log(this.data)
-    });
+    });}
+  })
   }
             await this.getSection();
+            this.getSection();
             await this.getScannerBy();
   }
   ScannerID() {
@@ -363,7 +445,7 @@ export class Table3Component implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-        this.http.delete('http://localhost:5001/verification-classrooms/us-central1/api/deleteSection/' + data.id, { headers: this.headers })
+        this.http.delete(`${this.API_SERVER}deleteSection/` + data.id, { headers: this.headers })
           .subscribe((ok) => { console.log(ok) });
         this.getSection();
         Swal.fire('ลบค่าเรียบร้อย!', '', 'success')

@@ -20,6 +20,12 @@ import { AuthenticationService } from '../../_services';
 })
 
 export class Table2Component implements OnInit {
+
+   //Hosting
+   API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+   // API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+
+
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
   scannerList: AngularFireList<any>;
   userList: AngularFireList<any>;
@@ -116,7 +122,7 @@ export class Table2Component implements OnInit {
 
   getScanner() {
 
-    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getScanner').subscribe(result => {
+    this.http.get<any>(`${this.API_SERVER}getScanner`).subscribe(result => {
       this.data = result['data'];
       console.log(this.data)
       for (let i = 0; i < result['data'].length; i++) {
@@ -154,7 +160,7 @@ export class Table2Component implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.value) {
-         this.http.delete('http://localhost:5001/verification-classrooms/us-central1/api/deleteScanner/' + data.id, { headers: this.headers })
+         this.http.delete(`${this.API_SERVER}deleteScanner/` + data.id, { headers: this.headers })
     .subscribe((ok) => { console.log(ok) });
     // this.scannerList.remove(data.id)
     // .then(() => {
@@ -177,18 +183,38 @@ export class Table2Component implements OnInit {
   }
   AddEquipment(data: NgForm) {
     // console.log(data.value)
+
     let selected = data.value.selectedUser;
     let scId = data.value.scId;
-    // let uId = data.value.selectedUser.uId;
-    // console.log(uId)
-    if (selected === "") {
-      this.db.list("/Scanner").push({ uId: "", scId: scId })
-    }
-    else {
-    //  console.log(data.value)
-      let uId = selected;
-      this.db.list("/Scanner").push({ uId: uId, scId: scId })
-    }
+    
+     if(scId =="" || scId == null){
+      Swal.fire({
+        icon: 'error',
+        title: 'ผิดพลาด',
+        text: 'กรุณาเพิ่มเครื่องสแกนลายนิ้วมือ',
+        footer: ''
+      })
+     }
+else{
+    this.db.database.ref('/Scanner').orderByChild('scId').equalTo(scId).once('value')
+    .then(sc => {
+      if(sc.numChildren() >= 1){
+        alert("ห้ามซ้ำ")
+      }
+      else{
+        if (selected === "" && scId != null) {
+          this.db.list("/Scanner").push({ uId: "", scId: scId })
+        }
+        else {
+        //  if
+          let uId = selected;
+          this.db.list("/Scanner").push({ uId: uId, scId: scId })
+        }
+      }this.confirm();
+    })
+    
+  }
+  
     this.getScanner();
   }
  
@@ -238,10 +264,16 @@ editEquipS(id,data: NgForm){
   console.log(data.value)
   let scId = data.value.scId;
   let uId = data.value.selectedUser
+  
   this.db.list('Scanner').update(id,{
     uId : uId,
     scId : scId
   });
+  Swal.fire(
+    'แก้ไขเรียบร้อย',
+    '',
+    'success'
+  )
    this.getScanner();
  }
   confirm(): void {

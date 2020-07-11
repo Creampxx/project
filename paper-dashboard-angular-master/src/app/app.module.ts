@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from "ngx-toastr";
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule } from './shared/navbar/navbar.module';
@@ -33,7 +33,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 
 import { FileUploadModule } from 'ng2-file-upload';
-
+import { ValidateEqualModule } from 'ng-validate-equal';
 @NgModule({
   declarations: [
     LoginComponent,
@@ -42,6 +42,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     CheckComponent,
   ],
   imports: [
+    ValidateEqualModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes, {
       useHash: true
@@ -72,4 +73,6 @@ import { FileUploadModule } from 'ng2-file-upload';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+ 
+
 }

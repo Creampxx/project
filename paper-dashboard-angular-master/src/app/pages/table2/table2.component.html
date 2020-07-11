@@ -81,6 +81,7 @@
                           <option *ngFor="let item of User"[ngValue] = "item.uId">
                             {{item.name+"  "+item.surname}}
                           </option>    
+                          <option value="">ว่าง</option>
                           </select>
                       </div>
                     </div>
@@ -88,7 +89,7 @@
                
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">เพิ่มอุปกรณ์</button>
+                      <button type="submit" class="btn btn-primary btn-round" >เพิ่มอุปกรณ์</button>
                     </div>
                   </div>
                 </form>
@@ -132,7 +133,7 @@
                           <option *ngFor="let item of User"[ngValue] = "item.uId"  id = "selectedUser">
                             {{item.name+"  "+item.surname}}                         
                           </option>    
-                          <option value="">ว่าง</option>
+                          <option value=" ">ว่าง</option>
                           </select>
                       </div>
                     </div>

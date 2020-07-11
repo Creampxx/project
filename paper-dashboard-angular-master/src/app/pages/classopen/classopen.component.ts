@@ -39,6 +39,12 @@ let ELEMENT_DATA = [
 })
 
 export class ClassopenComponent implements OnInit {
+
+//Hosting
+API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+// API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+
+
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
   idparam :any;
   Idenparam:any;
@@ -68,6 +74,15 @@ export class ClassopenComponent implements OnInit {
   getday:any;
   student: any;
   players : any;
+  values: any[];
+  green:any ;
+  yellow:any ;
+  red: any;
+  count1: number;
+  count2: number =0;
+  count3: number = 0;
+  count:number =0;
+  Arr: any;
 
 
 
@@ -96,17 +111,23 @@ export class ClassopenComponent implements OnInit {
         }
         this.getSectionData();
         this.getAttandace();
-       
+         
   }
    
-  
+  export(){
+    let dataid = this.idparam
+    window.open(`${this.API_SERVER}export/`+ dataid,'Download')
+  //   this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/export/'+ dataid).subscribe(result => {
+       
+  // });
+}
      
   getSectionData()
   {
    let dataid = this.idparam
     
    console.log(dataid)
-    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getSectionData/'+dataid,{ headers: this.headers }).subscribe(result => {
+    this.http.get<any>(`${this.API_SERVER}getSectionData/`+dataid,{ headers: this.headers }).subscribe(result => {
       this.dataSection = result['data'][0]
       console.log(this.dataSection)
        console.log(this.dataSection.subject)
@@ -121,7 +142,7 @@ export class ClassopenComponent implements OnInit {
 }
 getAttandace(){
   let dataid = this.idparam
-    this.http.get<any>('http://localhost:5001/verification-classrooms/us-central1/api/getAttandace/'+dataid,{ headers: this.headers }).subscribe(result => {
+    this.http.get<any>(`${this.API_SERVER}getAttandace/`+dataid,{ headers: this.headers }).subscribe(result => {
       this.Attandace = result['data'] 
         console.log(this.Attandace)
         this.timelate = this.Attandace.section.timelate;
@@ -135,12 +156,73 @@ getAttandace(){
            groupBy(person => person. uId),
            // return each item in group as array
            mergeMap(group => group.pipe(toArray())));
-            let values= [];
+             this.values= [];
           let subscribe = example.subscribe(val =>  {
-           values.push(val);
-           console.log(values)});
+            this. values.push(val);
+            console.log(this.values)
+          });
+        // this.Arr =this.values[0].reduce(function(obj,item)
+        //    {obj[item]= (obj[item] || 0 )+1;
+        //   return obj;},{});
+        //   console.log( this.Arr);
+          
         
+          for(let i = 0;i< this.values.length;i++){
+            for(let j = 0;j< this.values[i].length;j++){
+
+        //  console.log(this.values[i][j].status)
+         if(this.values[i][j].status =="ONTIME")
+         {
+           no:this.count++;
+         }
+         else if(this.values[i][j].status =="LATE")
+         {
+           this.count2++;
+         }
+         else if(this.values[i][j].status =="ABSENT")
+         {
+           this.count3++;
+         }
+             }     
+             console.log(this.count)
+            //  console.log(this.count2)
+            //  console.log(this.count3)
+
+        }
+
+
+          //  for(let i = 0;i< this.values.length;i++){
+          //  this.count = this.values[i].filter((obj) => obj.status === "ONTIME").length;
+
+          //  this.count2 = this.values[i].filter((a) => a.status === "LATE").length;
+
+
+          //  this.count3 = this.values[i].filter((b) => b.status === "ABSENT").length;
+
+           
+// }    
+              // this.values.forEach(function(e)
+              // {
+              //   if(!this[e.uId]){
+              //     (this[e.uId,e.name]={ id:e.uId ,name:e.name,date:[]}) &&  re.push(this[e.uId,e.name]) 
+              //   }
+              //   this[e.uId,e.name].date = [...new Set(this[e.uId,e.name].date.concat(e.date,e.time,e.status))]
+              // })
+              //     console.log(re);       
+
+            
     });
+}
+getColor(color){
+  switch (color){ 
+    case 'ONTIME':
+      this.count++;
+      return 'green';
+    case 'LATE':
+      return 'yellow';
+    case 'ABSENT':
+        return 'red';
+  }
 }
    ScannerConnect(){
      console.log()

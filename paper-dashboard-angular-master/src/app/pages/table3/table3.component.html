@@ -36,7 +36,7 @@
                 <td  ><i style="background-color: white; border-color: white;" (click)="Routering(data[i])">{{data[i].subject}}</i></td>
                 <td >{{data[i].sId}}</td>
                 <td style="text-align: center;">{{data[i].sectionNumber}}</td>
-                <td  style="text-align: center;" (click)="openModal(import);getIDSection(data[i]);"><i class="nc-icon nc-cloud-download-93" type="button"></i></td>
+                <td  style="text-align: center;" (click)="openModal(import);getIDSection(data[i]);"><i class="nc-icon nc-cloud-upload-94" type="button"></i></td>
                 <td style="text-align: center;"><i class="nc-icon nc-settings-gear-65" type="button" (click)="SectionKey(data[i]);openModal(B);"></i></td>
                 <td style="text-align: center;"><i class="nc-icon nc-box" type="button" (click)="delSection(data[i])"></i></td>
                 <td style="text-align: center;" (click)="SectionKey(data[i]);openModal(Scanner)"><button>{{data[i].scId}}</button></td>
@@ -54,19 +54,6 @@
           <h4 class="modal-title text-center">เพิ่มวิชาที่จะเปิดสอน</h4>
       </div>
       <div class="modal-body">
-        <!-- <div class="row">
-          <div class="col-md-5">
-        <form (ngSubmit)="AddUser(userForm)" #userForm="ngForm">
-          <label for="name">ชื่อ:</label> <input type="text" name="name" ngModel>  
-          <label for="surname">นามสกุล:</label> <input type="text" name="surname" ngModel>
-          <label for="email">อีเมลล์</label><input type="text" name="email" ngModel>
-          <label for="piority">สิทธิ์</label> <input type="text" name="piority" ngModel>
-          <label for="uId">รหัสผู้ใช้</label> <input type="text" name="uId" ngModel> 
-          <label for="password">รหัสผ่าน</label><input type="text" name="password" ngModel>
-        <button type="submit" class="btn btn-default" (click)="confirm()">เพิ่ม</button>
-        </form>
-        </div>
-        </div> -->
         <div class="row">
           <div class="col-md-8">
             <div class="card card-user">
@@ -91,6 +78,7 @@
                       <div class="form-group">
                         <label>ชื่อวิชา</label>
                         <input type="text" class="form-control" placeholder="" value="" name="subject" ngModel>
+                        <label style="color: red;">*ตั้งได้เฉพาะภาษาอังกฤษ</label>
                       </div>
                     </div>
                     <div class="col-md-6 pr-1">
@@ -136,7 +124,7 @@
                   </table>
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">เพิ่มวิชาที่จะเปิดสอน</button>
+                      <button type="submit" class="btn btn-primary btn-round" >เพิ่มวิชาที่จะเปิดสอน</button>
                     </div>
                   </div>
                 </form>
@@ -263,9 +251,10 @@
                 <div class="row">
                   <label>อุปกรณ์</label><br>
                   <select type="text" class="form-control"  name="scId" [(ngModel)]="scannerPro.scId" (change)="ScannerID()">
+                      <option value="" >ยกเลิกเชื่อม</option>
                       <option  *ngFor="let item of scannerPro"[ngValue] = "item"  id = "scId" >
                         {{item.scId}}</option>
-                        <option value="" >ยกเลิกเชื่อม</option>
+                        
                   </select>
                   <!-- {{scannerPro.scId | json}} -->
                 </div>
@@ -302,7 +291,7 @@
           </div>
 <div class="row">
   <div class="update ml-auto mr-auto">
-    <button type="submit" class="btn btn-primary btn-round" (click)="UploadFile();confirm();importSuccess()">ตกลง</button>
+    <button type="submit" class="btn btn-primary btn-round" (click)="UserImport();UploadFile();">ตกลง</button>
   </div>
 </div>
           </div>

@@ -50,11 +50,11 @@ export class SidebarComponent implements OnInit {
         this.uId = this.authenticationService.currentUserValue['user']['uId'];
         // this.user_id = this.authenticationService.currentUserValue['user_id'];
         if(this.authenticationService.currentUserValue['user']['piority'] == 'NISIT'){         
-            this.status = 'NISIT';
+            this.status = 'นิสิต';
             this.menuItems = ROUTES1.filter(menuItem => menuItem);
         }
         else if(this.authenticationService.currentUserValue['user']['piority'] ==  'PROFESSOR'){
-            this.status = 'PROFESSOR';
+            this.status = 'อาจารย์';
             this.menuItems = ROUTES2.filter(menuItem => menuItem);
             
         }

@@ -27,6 +27,12 @@ import Swal from 'sweetalert2';
 })
 
 export class TableComponent implements OnInit{
+
+
+ //Hosting
+ API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+ // API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+
    userList : AngularFireList<any>;
 
     OPEN: boolean = true;
@@ -88,8 +94,22 @@ export class TableComponent implements OnInit{
         })).subscribe(items => {
         console.log(items);
             const userFormDB = items.filter(a => a.key !== uid)
+            userFormDB.sort((a,b) => b.value.uId - a.value.uId)
             this.User = userFormDB;        
             console.log( this.User)
+            // for(let i =0;i<this.User.length;i++){   
+            // if(this.User[i].value.piority  === "NISIT"){
+            //     this.User[i].value.piority="นิสิต"}
+            //     else{
+            //         this.User[i].value.piority="อาจารย์"
+            //     }
+            // }
+            for(let i =0;i<this.User.length;i++){
+             if (this.User[i].value.piority == "NISIT")
+                 {this.User[i].value.piority = "นิสิต"}
+                 else{
+                    this.User[i].value.piority = "อาจารย์"
+                 }}
         });
         }
  openModal(template: TemplateRef<any>) {
@@ -107,7 +127,7 @@ export class TableComponent implements OnInit{
             confirmButtonText: 'Yes, delete it!'
           }).then(async (result) => {
             if (result.value) {
-                 this.http.delete('https://us-central1-verification-classrooms.cloudfunctions.net/api/deleteUser/' + data.key)
+                 this.http.delete(`${this.API_SERVER}deleteUser/` + data.key)
                 .subscribe((ok)=>{console.log(ok)});
                 //  this.userList.remove(data.key);
                
@@ -121,6 +141,7 @@ export class TableComponent implements OnInit{
      }
     
      AddUser(data: NgForm){
+         
         let d = {
             uId:data.value.uId,
             name:data.value.name,
@@ -129,18 +150,69 @@ export class TableComponent implements OnInit{
             email: data.value.email,
             password: data.value.password
           };
-          console.log(d)
-        this.http.post<any>('http://localhost:5001/verification-classrooms/us-central1/api/signup', d, { headers: this.headers}).subscribe(result => {
-             console.log(result);
-        });
+          if(d.uId =="" || d.surname == ""|| d.uId =="" || d.name =="" || d.piority == "" || d.email =="" || d.password ==""){
+            Swal.fire({
+                icon: 'error',
+                title: 'ผิดพลาด',
+                text: 'กรุณากรอกค่าให้ครบทุกช่อง',
+                footer: ''
+              })
+          }else{
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success',
+                  cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+              })
+              
+              swalWithBootstrapButtons.fire({
+                title: 'จะเพิ่มผู้ใช้คนนี้ใช่หรือไม่?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'เพิ่ม',
+                cancelButtonText: 'กลับไปแก้ไข',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.value) {
+                    this.http.post<any>(`${this.API_SERVER}signup`, d, { headers: this.headers}).subscribe(result => {
+                        console.log(result);
+                   });
+                   this.confirm();
+                  swalWithBootstrapButtons.fire(
+                    'เพิ่มผู้ใช้เรียบร้อย',
+                    '',
+                    'success'
+                  )
+               
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swalWithBootstrapButtons.fire(
+                    'ยกเลิก',
+                    'กลับไปแก้ไขค่า',
+                    'error'
+                  )
+                }
+              })
+            }
+       
      }
 
      editUser(data){
         //this.db.list("User").push(data.value);
         console.log(data)
+        if(data.value.piority  == "NISIT"){
+        data.value.piority="นิสิต"}
+        else{
+            data.value.piority="อาจารย์"
+        }
         this.exname = data.value;
         this.exname.key = data.key;
         console.log(this.exname.key);
+        
         // document.getElementById("password").removeAttribute("disabled");
         // this.getUserByKey(data.key);
         
@@ -157,7 +229,13 @@ export class TableComponent implements OnInit{
      }
 
      editUserS(key,data: NgForm){
+        Swal.fire(
+          'แก้ไขเรียบร้อย',
+          '',
+          'success'
+        )
          this.db.list('User').update(key,data.value);
+         
      }
 
      confirm(): void {

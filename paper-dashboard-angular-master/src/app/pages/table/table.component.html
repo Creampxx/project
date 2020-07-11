@@ -7,7 +7,7 @@
       </div>
       <div class="card-body">
         <div class="table-responsive-md">
-          <table class="table">
+          <table class="table" mdbTable mdbTableScroll scrollY="true" maxHeight="200" scrollX="true" maxWidth="400">
             <thead class=" text-primary">
               <th>
                ชื่อ-นามสกุล
@@ -19,7 +19,7 @@
                 อีเมลล์
               </th>
               <th style="text-align: center;">
-                ให้สิทธิ์
+                สิทธิ์
               </th>
               <th style="text-align: center;">
                แก้ไข
@@ -32,7 +32,7 @@
                </th> -->
             </thead>
             <tbody>
-          <tr *ngFor = "let data of User;">
+          <tr *ngFor = "let data of User;let i = index">
                <td >{{data.value.name+"  "+data.value.surname }}</td>
                <td >{{data.value.uId}}</td>
                <td >{{data.value.email}}</td>
@@ -114,15 +114,15 @@
                         <label>สิทธิ์</label><br>
                         <!-- <input type="text" class="form-control" placeholder="NISIT/PROFESSOR"  name="piority" ngModel> -->
                         <input type="radio"  name="piority" value="NISIT" ngModel>    
-                        <label for="male">NISIT</label><br>                   
+                        <label for="male">นิสิต</label><br>                   
                         <input type="radio"  name="piority" value="PROFESSOR" ngModel>    
-                        <label for="male">PROFESSOR</label><br>                  
+                        <label for="male">อาจารย์</label><br>                  
                       </div>
                     </div>
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>รหัสผู้ใช้</label>
-                        <input type="text" class="form-control"  placeholder="รหัสนิสิต/รหัสอาจารย์" value="592050xxxx" name="uId" ngModel>
+                        <input type="text" class="form-control"  placeholder="รหัสนิสิต/รหัสอาจารย์" value="" name="uId" ngModel>
                       </div>
                     </div>
                   </div>
@@ -131,14 +131,18 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>รหัสผ่าน</label>
-                        <input type="password" class="form-control" placeholder="รหัสผ่าน" value="" name="password" ngModel>
+                        <input type="password" class="form-control" placeholder="รหัสผ่าน" value="" name="password" ngModel
+                        required minlength="6">
+                        <div *ngIf="password.errors.minlength">
+                          รหัสผ่านควรมีมากกว่าหรือเท่ากับ 6 ตัว.
+                        </div>
                         <label style="color: red;">*รหัสผ่านต้องมีมากกว่า 6 ตัวอักษร</label>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                     <div class="update ml-auto mr-auto">
-                      <button type="submit" class="btn btn-primary btn-round" (click)="confirm()">เพิ่มผู้ใช้</button>
+                      <button type="submit" class="btn btn-primary btn-round" >เพิ่มผู้ใช้</button>
                     </div>
                   </div>
                 </form>
@@ -193,7 +197,7 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label>สิทธิ์</label>
-                        <input type="text" class="form-control" placeholder="สิทธิ์"  name="piority"  [(ngModel)]="exname.piority" disabled="disabled"> 
+                        <input type="text" class="form-control" placeholder="สิทธิ์"  name="piority"  [(ngModel)]="exname.piority"  disabled="disabled"> 
                       </div>
                     </div>
                     <div class="col-md-6 pr-1">
@@ -208,8 +212,7 @@
                     <div class="col-md-6 pr-1">
                       <div class="form-group">
                         <label>รหัสผ่าน</label>
-                        <input type="text" class="form-control"  placeholder="รหัสผ่าน" id="password" name="password"  [(ngModel)]="exname.password" disabled="disabled">
-                       
+                        <input type="password" class="form-control"  placeholder="รหัสผ่าน" id="password" name="password"  [(ngModel)]="exname.password" disabled="disabled">
                       </div>
                     </div>
                   </div>
