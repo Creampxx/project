@@ -30,8 +30,8 @@ export class TableComponent implements OnInit{
 
 
  //Hosting
- API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
- // API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+ //API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+  API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
 
    userList : AngularFireList<any>;
 

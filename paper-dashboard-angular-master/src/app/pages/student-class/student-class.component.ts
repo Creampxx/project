@@ -16,8 +16,8 @@ import { AuthenticationService } from '../../_services';
 export class StudentClassComponent implements OnInit {
 
 //Hosting
-API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
-// API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+//API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+ API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
 
 
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
@@ -38,10 +38,15 @@ API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
   }
 
   getSectionForStudent(){
+    try{
     this.http.get<any>(`${this.API_SERVER}getSectionforStudent`, { headers: this.headers }).subscribe(result => {
       this.data = result['data']
       console.log(this.data)
     });
+  }
+  catch(err){
+    this.router.navigateByUrl('/login');
+  }
   }
  
   Routering(data) {

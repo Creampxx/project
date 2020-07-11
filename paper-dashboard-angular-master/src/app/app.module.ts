@@ -69,7 +69,26 @@ import { ValidateEqualModule } from 'ng-validate-equal';
     FormsModule,
     FileUploadModule
   ],
-  providers: [],
+  providers: [
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+    
+    
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

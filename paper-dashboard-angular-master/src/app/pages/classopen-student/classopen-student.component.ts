@@ -31,8 +31,8 @@ export class ClassopenStudentComponent implements OnInit {
   }
 
   //Hosting
-API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
-// API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+//API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+ API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
 
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);
   
@@ -81,6 +81,7 @@ API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
       
       
       getAttandaceByStudent(){
+        try{
         let idparams =  this.idparam
       this.http.get<any>(`${this.API_SERVER}getAttandaceByStudent/`+idparams,{ headers: this.headers }).subscribe(result => {
         this.data = result['data']
@@ -112,6 +113,11 @@ API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
           }
      
       });
+    }
+    catch(err){
+      this.router.navigateByUrl('/login');
+    }
+      
 
         
     }

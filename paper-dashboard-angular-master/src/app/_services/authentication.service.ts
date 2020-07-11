@@ -56,58 +56,6 @@ export class AuthenticationService {
             alert(error.error.message)
         
         });
-        // this.items=db.list('/candidates_list',{
-        //     query:{
-        //       orderByChild:'email',
-        //       equalTo:'pranavkeke@gmail.com'
-        //     }})
-        //     .map(item => item.FirstName) as FirebaseListObservable<any[]>;
-        // const user_data = this.db.list('User',ref => ref.equalTo("CV9QO5Tl34YpTcsXHNSHl2ZXuE93"))
-        // user_data.snapshotChanges().subscribe(items => {
-        //     console.log("items",items)
-        // })
-        // console.log(user_data)
-        // this.db.list('key_threads/key_threadList', {  
-        //     query: {
-        //         orderBy: "key1",
-        //         equalTo: 'val1', 
-        //         orderBy: "key2",  // I GET ERROR HEARE
-        //         equalTo: 'val2', 
-        //     }
-        // }).subscribe(
-        //     result => { 
-        //         console.log('result ' + JSON.stringify(result));
-        //    });
-        
-        
-    //     user_data.snapshotChanges().pipe(map(actions => {
-    //         //console.log(actions);
-    //     return actions.map(action => ({ key: action.key, value:action.payload.val()})
-    //     );
-
-    // })).subscribe(items => {
-    // console.log(items);
-    // });
-    //     return this.af.auth.signInWithEmailAndPassword(email,password)
-    //     .then(result => {
-    //         let retun
-    //         this.af.auth.currentUser.getIdTokenResult()
-    //         .then(idtoken => {
-    //             // console.log("token",idtoken);
-    //             console.log(result['user']);
-    //             const user = result['user'];
-    //             console.log(idtoken['claims']);
-    //             console.log("uid",idtoken['claims']['user_id'])
-    //             localStorage.setItem('currentUser', JSON.stringify(user))
-    //             // this.currentUserSubject.next(user);
-    //             // return idtoken['claims'];
-    //             retun = idtoken['claims'];
-    //         })
-    //         .catch(err => {
-    //             console.log(err.message)
-    //         })
-    //         return retun;
-    // });
     }
 
     getUserLogin = async () => {

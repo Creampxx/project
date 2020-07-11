@@ -22,8 +22,8 @@ import { AuthenticationService } from '../../_services';
 export class Table2Component implements OnInit {
 
    //Hosting
-   API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
-   // API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+   //API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+    API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
 
 
   headers = new HttpHeaders().set('token', this.authenticationService.currentUserValue['token']);

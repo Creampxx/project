@@ -33,8 +33,8 @@ export const ROUTES1: RouteInfo[] = [
 export class Table3Component implements OnInit {
 
   //Hosting
-    API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
-    // API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
+    //API_SERVER = "http://localhost:5001/verification-classrooms/us-central1/api/";
+     API_SERVER = "https:/us-central1-verification-classrooms.cloudfunctions.net/api/";
 
 
 
@@ -321,18 +321,27 @@ export class Table3Component implements OnInit {
     }
   }
   getScannerBy() {
+    try{
     this.http.get<any>(`${this.API_SERVER}getScannerByTeacher`, { headers: this.headers }).subscribe(result => {
       this.scannerPro = result['data']
       console.log(this.scannerPro)
-
     });
   }
+  catch(err){
+    console.log(err.message);
+    this.router.navigateByUrl('/login');
+  }
+  }
   getSection() {
+    try{
     this.http.get<any>(`${this.API_SERVER}getSection`, { headers: this.headers }).subscribe(result => {
       this.data = result['data']
       console.log(this.data)
 
-    });
+    });}
+    catch(err){
+      this.router.navigateByUrl('/login');
+    }
   }
   SectionKey(data) {
     console.log(data)
