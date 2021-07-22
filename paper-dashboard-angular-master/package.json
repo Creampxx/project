@@ -62,7 +62,7 @@
     "sweetalert2": "^9.10.12",
     "tslib": "1.9.0",
     "web-animations-js": "^2.3.2",
-    "xlsx": "^0.16.2",
+    "xlsx": "^0.17.0",
     "xlsx-parse-json": "^3.1.0",
     "zone.js": "0.9.1"
   },
